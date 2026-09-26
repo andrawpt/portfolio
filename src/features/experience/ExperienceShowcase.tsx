@@ -70,10 +70,11 @@ export function ExperienceShowcase({ onBack: _onBack }: ExperienceShowcaseProps)
           </div>
         </section>
 
+        {/* Desktop View: Sequential ScrollStack */}
         <motion.section
           variants={KINETIC_ITEM_VARIANTS}
-          id="experience-milestones-section"
-          className="relative min-h-screen flex flex-col justify-center py-12 sm:py-20"
+          id="experience-milestones-section-desktop"
+          className="relative min-h-screen hidden md:flex flex-col justify-center py-12 sm:py-20"
         >
           <div className="space-y-6 w-full">
             <ScrollStack
@@ -114,6 +115,55 @@ export function ExperienceShowcase({ onBack: _onBack }: ExperienceShowcaseProps)
             </ScrollStack>
           </div>
         </motion.section>
+
+        {/* Mobile View (View HP): Clean Fade-In List (No Stacking / Pinning) */}
+        <section
+          id="experience-milestones-section-mobile"
+          className="block md:hidden relative flex flex-col justify-center py-8"
+        >
+          <div className="space-y-8 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{
+                duration: 0.5,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="space-y-3 text-left py-2 max-w-full"
+            >
+              <h2 className="text-3xl font-mono font-black text-neutral-900 dark:text-white tracking-tight">
+                Career Timeline & Milestones
+              </h2>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400 font-sans max-w-2xl">
+                A chronological track record of engineering leadership, AI development, and research.
+              </p>
+            </motion.div>
+
+            <div className="flex flex-col gap-6 w-full">
+              {EXPERIENCES_DATA.map((exp, idx) => (
+                <motion.div
+                  key={exp.id}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
+                  className="w-full"
+                >
+                  <MilestoneCard
+                    exp={exp}
+                    isHovered={hoveredExpIndex === idx}
+                    onHoverStart={() => setHoveredExpIndex(idx)}
+                    onHoverEnd={() => setHoveredExpIndex(null)}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <motion.section
           variants={KINETIC_ITEM_VARIANTS}

@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 interface BioRevealSectionProps {
@@ -23,7 +24,7 @@ export function BioRevealSection({
   const containerRef = useRef<HTMLDivElement>(null);
   const pinnedInnerRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
-  const [pinDistance, setPinDistance] = useState<number>(3600);
+  const [pinDistance, setPinDistance] = useState<number>(3800);
   const lastYRef = useRef<number>(-99999);
   const animFrameRef = useRef<number | null>(null);
 
@@ -69,7 +70,7 @@ export function BioRevealSection({
   };
 
   const updatePinningTransform = useCallback(() => {
-    if (!containerRef.current || !pinnedInnerRef.current) return;
+    if (window.innerWidth < 768 || !containerRef.current || !pinnedInnerRef.current) return;
 
     const scrollTop = window.scrollY;
     const containerRect = containerRef.current.getBoundingClientRect();
@@ -170,32 +171,58 @@ export function BioRevealSection({
   );
 
   return (
-    <div
-      ref={containerRef}
-      id="about-bio-reveal"
-      style={{ height: `${pinDistance + 600}px` }}
-      className={cn("relative w-full overflow-visible", className)}
-    >
+    <>
+      {/* Desktop View: Original 3D Domino Pinned Reveal */}
       <div
-        ref={pinnedInnerRef}
-        style={{ willChange: "transform" }}
-        className="relative w-full max-w-5xl mx-auto flex flex-col justify-center py-6 sm:py-10 z-20"
+        ref={containerRef}
+        id="about-bio-reveal"
+        style={{ height: `${pinDistance + 600}px` }}
+        className={cn("relative w-full overflow-visible hidden md:block", className)}
       >
-        <div className="w-full space-y-6 sm:space-y-8 text-center sm:text-left">
-          <div className="overflow-hidden py-1 text-center sm:text-left">
-            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-mono tracking-tight text-neutral-900 dark:text-white leading-[1.15] text-center sm:text-left">
-              {mainHeaderWords.map((w) => renderWordWithDominoChars(w, true))}
-            </h1>
-          </div>
+        <div
+          ref={pinnedInnerRef}
+          style={{ willChange: "transform" }}
+          className="relative w-full max-w-5xl mx-auto flex flex-col justify-center py-6 sm:py-10 z-20"
+        >
+          <div className="w-full space-y-6 sm:space-y-8 text-center sm:text-left">
+            <div className="overflow-hidden py-1 text-center sm:text-left">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-mono tracking-tight text-neutral-900 dark:text-white leading-[1.15] text-center sm:text-left">
+                {mainHeaderWords.map((w) => renderWordWithDominoChars(w, true))}
+              </h1>
+            </div>
 
-          <div className="overflow-hidden text-center sm:text-left">
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-600 dark:text-neutral-300 leading-relaxed font-sans max-w-4xl text-center sm:text-left mx-auto sm:mx-0">
-              {subHeaderWords.map((w) => renderWordWithDominoChars(w))}
-            </p>
+            <div className="overflow-hidden text-center sm:text-left">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-neutral-600 dark:text-neutral-300 leading-relaxed font-sans max-w-4xl text-center sm:text-left mx-auto sm:mx-0">
+                {subHeaderWords.map((w) => renderWordWithDominoChars(w))}
+              </p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Mobile / View HP (Clean Fade-In Only, No Character-by-Character / Domino) */}
+      <section className="block md:hidden relative w-full py-6 text-center sm:text-left">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{
+            duration: 0.65,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className="w-full space-y-4"
+        >
+          <h2 className="text-2xl sm:text-3xl font-black font-mono tracking-tight text-neutral-900 dark:text-white leading-[1.2]">
+            <span className="bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-500 dark:from-white dark:via-neutral-200 dark:to-neutral-400 bg-clip-text text-transparent">
+              {rawMainHeader}
+            </span>
+          </h2>
+          <p className="text-base text-neutral-600 dark:text-neutral-300 leading-relaxed font-sans">
+            {rawSubHeader}
+          </p>
+        </motion.div>
+      </section>
+    </>
   );
 }
 

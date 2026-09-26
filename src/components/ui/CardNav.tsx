@@ -189,7 +189,7 @@ export const CardNav: FC<CardNavProps> = ({
 
   return (
     <div
-      className={`card-nav-container pointer-events-auto absolute inset-x-0 mx-auto w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] md:w-[calc(100%-140px)] max-w-[620px] z-[1000] top-3 sm:top-6 ${className}`}
+      className={`card-nav-container pointer-events-auto absolute inset-x-0 mx-auto w-[calc(100%-2rem)] sm:w-[calc(100%-4rem)] md:w-[calc(100%-120px)] max-w-[620px] md:max-w-4xl lg:max-w-5xl z-[1000] top-3 sm:top-6 ${className}`}
     >
       <nav
         ref={navRef}

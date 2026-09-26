@@ -82,31 +82,41 @@ export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcasePr
               {PROJECT_STATS.map((stat, idx) => {
                 const variant = STAT_FLOAT_VARIANTS[idx % STAT_FLOAT_VARIANTS.length];
 
-                return (
-                  <motion.div
-                    key={idx}
-                    animate={{
-                      y: variant.animateY,
-                      rotate: variant.animateRotate,
-                    }}
-                    transition={{
-                      y: {
-                        duration: variant.duration,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                        ease: "easeInOut",
-                        delay: variant.delay,
-                      },
-                      rotate: {
-                        duration: variant.duration * 1.1,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                        ease: "easeInOut",
-                        delay: variant.delay,
-                      },
-                    }}
-                    className="transform-gpu relative"
-                  >
+                  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
+                  return (
+                    <motion.div
+                      key={idx}
+                      animate={
+                        isMobile
+                          ? { y: 0, rotate: 0 }
+                          : {
+                              y: variant.animateY,
+                              rotate: variant.animateRotate,
+                            }
+                      }
+                      transition={
+                        isMobile
+                          ? { duration: 0.12 }
+                          : {
+                              y: {
+                                duration: variant.duration,
+                                repeat: Infinity,
+                                repeatType: "mirror",
+                                ease: "easeInOut",
+                                delay: variant.delay,
+                              },
+                              rotate: {
+                                duration: variant.duration * 1.1,
+                                repeat: Infinity,
+                                repeatType: "mirror",
+                                ease: "easeInOut",
+                                delay: variant.delay,
+                              },
+                            }
+                      }
+                      className="transform-gpu relative"
+                    >
                     <motion.div
                       whileHover={{
                         scale: 1.08,

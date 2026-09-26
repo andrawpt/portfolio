@@ -23,6 +23,7 @@ export function ProjectCard({
   onMouseLeave,
 }: ProjectCardProps) {
   const floatConfig = BENTO_FLOAT_VARIANTS[idx % BENTO_FLOAT_VARIANTS.length];
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <motion.div
@@ -33,13 +34,13 @@ export function ProjectCard({
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         animate={
-          isActive
+          isActive || isMobile
             ? {
-                scale: 1.04,
-                y: -14,
+                scale: 1,
+                y: 0,
                 rotate: 0,
                 opacity: 1,
-                zIndex: 50,
+                zIndex: isActive ? 50 : 1,
               }
             : isOtherActive
             ? {
@@ -58,7 +59,7 @@ export function ProjectCard({
               }
         }
         transition={
-          isActive || isOtherActive
+          isActive || isOtherActive || isMobile
             ? {
                 type: "spring",
                 stiffness: 380,

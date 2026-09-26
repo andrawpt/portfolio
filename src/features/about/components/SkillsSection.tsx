@@ -124,7 +124,7 @@ export function SkillsSection() {
               >
                 <motion.div
                   animate={
-                    isHovered
+                    isHovered || isMobile
                       ? { y: 0, rotate: 0 }
                       : {
                           y: floatConfig.y,
@@ -132,7 +132,7 @@ export function SkillsSection() {
                         }
                   }
                   transition={
-                    isHovered
+                    isHovered || isMobile
                       ? { duration: 0.12, ease: "easeOut" }
                       : {
                           duration: floatConfig.duration,

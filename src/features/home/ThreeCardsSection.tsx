@@ -19,7 +19,7 @@ export function ThreeCardsSection({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -154,7 +154,7 @@ export function ThreeCardsSection({
                 >
                   <motion.div
                     animate={
-                      isHovered
+                      isHovered || isMobile
                         ? { y: 0, rotate: 0 }
                         : {
                             y: floatConfig.y,
@@ -162,7 +162,7 @@ export function ThreeCardsSection({
                           }
                     }
                     transition={
-                      isHovered
+                      isHovered || isMobile
                         ? { duration: 0.12, ease: "easeOut" }
                         : {
                             duration: floatConfig.duration,

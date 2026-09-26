@@ -266,3 +266,23 @@
   animation: float-subtitle 6.8s ease-in-out infinite 0.4s;
   will-change: transform;
 }
+
+/* Disable continuous floating animations on Mobile View (< 768px) for performance optimization */
+@media (max-width: 767px) {
+  .float-milestone-0,
+  .float-milestone-1,
+  .float-milestone-2,
+  .float-milestone-3,
+  .float-milestone-4,
+  .float-badge-anim,
+  .float-icon-anim,
+  .float-stat-0,
+  .float-stat-1,
+  .float-stat-2,
+  .float-stat-3,
+  .float-headline-anim,
+  .float-subtitle-anim {
+    animation: none !important;
+    transform: none !important;
+  }
+}
