@@ -15,9 +15,18 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Push to Public Repo
+      - name: Remove Workflows and Push to Public
         env:
           TOKEN: ${{ secrets.SYNC_PAT }}
         run: |
+          # 1. Konfigurasi identitas git sementara di runner
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 2. Hapus folder .github dari commit yang akan dikirim
+          git rm -rf .github
+          git commit -m "chore: exclude workflows from public repo" || true
+
+          # 3. Setup remote dan push ke repo public
           git remote add public-target "https://x-access-token:${TOKEN}@github.com/andrawpt/portfolio.git"
           git push public-target main --force
