@@ -13,17 +13,15 @@ const ITEMS_PER_PAGE = 4;
 const containerVariants: Variants = {
   enter: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? 60 : -60,
-    scale: 0.95,
-    filter: "blur(6px)",
+    x: direction > 0 ? 50 : -50,
+    scale: 0.96,
   }),
   center: {
     opacity: 1,
     x: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
-      staggerChildren: 0.07,
+      staggerChildren: 0.05,
       delayChildren: 0.02,
       type: "spring",
       stiffness: 300,
@@ -33,11 +31,10 @@ const containerVariants: Variants = {
   },
   exit: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? -60 : 60,
-    scale: 0.95,
-    filter: "blur(6px)",
+    x: direction > 0 ? -50 : 50,
+    scale: 0.96,
     transition: {
-      duration: 0.25,
+      duration: 0.2,
       ease: [0.32, 0, 0.67, 0] as const,
     },
   }),
@@ -46,17 +43,15 @@ const containerVariants: Variants = {
 const cardVariants: Variants = {
   enter: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? 40 : -40,
-    y: 25,
-    scale: 0.92,
-    filter: "blur(8px)",
+    x: direction > 0 ? 30 : -30,
+    y: 15,
+    scale: 0.94,
   }),
   center: {
     opacity: 1,
     x: 0,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       type: "spring",
       stiffness: 340,
@@ -66,12 +61,11 @@ const cardVariants: Variants = {
   },
   exit: (direction: number) => ({
     opacity: 0,
-    x: direction > 0 ? -40 : 40,
-    y: -15,
-    scale: 0.94,
-    filter: "blur(6px)",
+    x: direction > 0 ? -30 : 30,
+    y: -10,
+    scale: 0.95,
     transition: {
-      duration: 0.22,
+      duration: 0.18,
       ease: [0.32, 0, 0.67, 0] as const,
     },
   }),

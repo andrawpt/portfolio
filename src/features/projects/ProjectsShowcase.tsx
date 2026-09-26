@@ -36,7 +36,7 @@ export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcasePr
 
   return (
     <div className="relative min-h-screen w-full bg-transparent text-neutral-900 dark:text-white font-sans overflow-x-hidden pt-0 pb-28 px-4 sm:px-10 md:px-16 lg:px-24 xl:px-28 transition-colors duration-500">
-      <div className="pointer-events-none fixed inset-0 z-0">
+      <div className="pointer-events-none fixed inset-0 z-0 hidden sm:block">
         <div
           className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full blur-[180px] opacity-15 dark:opacity-30 transition-all duration-700"
           style={{ backgroundColor: `${theme.primary}25` }}

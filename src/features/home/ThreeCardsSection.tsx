@@ -59,7 +59,7 @@ export function ThreeCardsSection({
         scale: isMobile ? 1.02 : 1.08,
         zIndex: 50,
         opacity: 1,
-        filter: "blur(0px)",
+        filter: isMobile ? "none" : "blur(0px)",
       };
     }
 
@@ -77,7 +77,7 @@ export function ThreeCardsSection({
         scale: isMobile ? 0.98 : 0.95,
         zIndex: BASE_STACK[index].zIndex,
         opacity: 0.45,
-        filter: "blur(6px)",
+        filter: isMobile ? "none" : "blur(6px)",
       };
     }
 
@@ -88,7 +88,7 @@ export function ThreeCardsSection({
       scale: 1,
       zIndex: BASE_STACK[index].zIndex,
       opacity: 1,
-      filter: "blur(0px)",
+      filter: isMobile ? "none" : "blur(0px)",
     };
   };
 
@@ -101,8 +101,8 @@ export function ThreeCardsSection({
       <div className="max-w-[94rem] mx-auto w-full flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-8 xl:gap-14">
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-4 sm:space-y-6 w-full lg:w-5/12 xl:w-4/12 shrink-0 z-10">
           <motion.h2
-            initial={{ opacity: 0, y: 45, filter: "blur(12px)", scale: 0.94 }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+            initial={{ opacity: 0, y: 35, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{
               type: "spring",
@@ -118,13 +118,13 @@ export function ThreeCardsSection({
           </motion.h2>
 
           <motion.p
-            initial={{ opacity: 0, y: 35, filter: "blur(8px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, amount: 0.3 }}
             transition={{
-              duration: 0.85,
+              duration: 0.65,
               ease: [0.16, 1, 0.3, 1],
-              delay: 0.25,
+              delay: 0.2,
             }}
             className="text-sm sm:text-lg md:text-xl font-normal text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed text-center sm:text-left"
           >
@@ -198,8 +198,8 @@ export function ThreeCardsSection({
                           }
                         }}
                         style={{
-                          backdropFilter: "blur(12px) saturate(160%)",
-                          WebkitBackdropFilter: "blur(12px) saturate(160%)",
+                          backdropFilter: isMobile ? "none" : "blur(12px) saturate(160%)",
+                          WebkitBackdropFilter: isMobile ? "none" : "blur(12px) saturate(160%)",
                         }}
                         className={`group relative flex flex-col justify-between p-6 sm:p-8 md:p-9 w-full rounded-3xl backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-200 cursor-pointer overflow-hidden ${
                           isHovered

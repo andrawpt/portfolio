@@ -8,17 +8,17 @@ export function ToolsFrameworksGrid() {
   return (
     <section className="min-h-[70vh] sm:min-h-[80vh] flex flex-col justify-center py-16 sm:py-24">
       <motion.div
-        initial={{ opacity: 0, y: 35, filter: "blur(10px)" }}
-        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        viewport={{ once: false, amount: 0.15 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="space-y-8 sm:space-y-10 w-full my-auto"
       >
         <div className="space-y-3 text-center sm:text-left">
           <motion.h2
-            initial={{ opacity: 0, y: 35, filter: "blur(12px)", scale: 0.94 }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
+            initial={{ opacity: 0, y: 25, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{
               type: "spring",
               stiffness: 240,
@@ -40,9 +40,9 @@ export function ToolsFrameworksGrid() {
             return (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 30, scale: 0.86, filter: "blur(8px)" }}
-                whileInView={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-                viewport={{ once: false, amount: 0.15 }}
+                initial={{ opacity: 0, y: 20, scale: 0.92 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.1 }}
                 whileHover={{
                   y: -10,
                   scale: 1.08,
@@ -65,7 +65,7 @@ export function ToolsFrameworksGrid() {
                   type: "spring",
                   stiffness: 260,
                   damping: 20,
-                  delay: (idx % 6) * 0.04 + Math.floor(idx / 6) * 0.06,
+                  delay: (idx % 6) * 0.03 + Math.floor(idx / 6) * 0.04,
                 }}
                 className="group relative flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl backdrop-blur-xl bg-white/60 dark:bg-neutral-900/60 border border-neutral-900/15 dark:border-white/15 shadow-sm hover:border-neutral-900/40 dark:hover:border-white/40 hover:shadow-[0_20px_40px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_20px_40px_rgba(0,0,0,0.6)] hover:bg-white/90 dark:hover:bg-neutral-900/90 transition-[background-color,border-color,box-shadow] duration-200 cursor-pointer overflow-hidden transform-gpu will-change-transform select-none"
               >

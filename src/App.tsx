@@ -56,15 +56,13 @@ const pageContainerVariants: Variants = {
 const kineticItemVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 45,
-    scale: 0.94,
-    filter: "blur(12px)",
+    y: 35,
+    scale: 0.95,
   },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       type: "spring",
       stiffness: 240,
@@ -74,11 +72,10 @@ const kineticItemVariants: Variants = {
   },
   exit: {
     opacity: 0,
-    y: -35,
-    scale: 0.92,
-    filter: "blur(12px)",
+    y: -25,
+    scale: 0.94,
     transition: {
-      duration: 0.35,
+      duration: 0.25,
       ease: [0.16, 1, 0.3, 1],
     },
   },
@@ -88,11 +85,19 @@ function AppContent() {
   const [showUI, setShowUI] = useState(false);
   const [introFinished, setIntroFinished] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [isMobileScreen, setIsMobileScreen] = useState(false);
   const { theme } = useColorTheme();
   const { isDark, toggleTheme } = useTheme();
   const [activePage, setActivePage] = useState<"home" | "about" | "projects" | "experience">("home");
 
   const lenisRef = useRef<Lenis | null>(null);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobileScreen(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -196,6 +201,10 @@ function AppContent() {
   }, []);
 
   useEffect(() => {
+    // Disable Lenis JS smooth scroll on mobile/touch devices to optimize performance and prevent scroll lag
+    const isMobile = window.innerWidth < 768 || ("ontouchstart" in window && window.innerWidth < 1024);
+    if (isMobile) return;
+
     const lenis = new Lenis({
       duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -419,12 +428,13 @@ function AppContent() {
                               "Machine Learning",
                               "Data Analysis",
                             ]}
+                            splitBy={isMobileScreen ? "words" : "characters"}
+                            staggerDuration={isMobileScreen ? 0 : 0.025}
                             mainClassName="px-3.5 py-1.5 sm:px-5 sm:py-2.5 overflow-hidden rounded-xl sm:rounded-2xl text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter font-mono leading-tight md:leading-none w-fit border backdrop-blur-2xl bg-white/10 dark:bg-white/5 border-white/30 dark:border-white/15 text-neutral-900 dark:text-white shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.4),0_8px_24px_rgba(0,0,0,0.1)] relative whitespace-nowrap"
                             staggerFrom={"first"}
                             initial={{ y: "100%", opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: "-120%", opacity: 0 }}
-                            staggerDuration={0.025}
                             splitLevelClassName="overflow-hidden pb-0.5 sm:pb-1 md:pb-1"
                             transition={{ type: "spring", damping: 26, stiffness: 380 }}
                             rotationInterval={2200}
