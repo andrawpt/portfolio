@@ -13,14 +13,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Push to Public Repo
         env:
           PUBLIC_REPO: "andrawpt/portfolio"
           TOKEN: ${{ secrets.SYNC_PAT }}
         run: |
-          # Konfigurasi remote untuk repo public dengan autentikasi token
-          git remote add public-target "https://\({TOKEN}@github.com/\){PUBLIC_REPO}.git"
-          
-          # Push branch main dari private ke public (force push memastikan selalu identik)
+          git remote add public-target "https://x-access-token:\({TOKEN}@github.com/\){PUBLIC_REPO}.git"
           git push public-target main --force
