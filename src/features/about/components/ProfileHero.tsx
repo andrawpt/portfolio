@@ -1,11 +1,7 @@
 import { motion } from "motion/react";
 import {
-  IconUser,
   IconMail,
-  IconBrandGithub,
-  IconBrandLinkedin,
-  IconBrandInstagram,
-  IconArrowRight,
+  IconDownload,
 } from "@tabler/icons-react";
 import { CounterNumber } from "@/components/ui/CounterNumber";
 import { ABOUT_STATS, KINETIC_ITEM_VARIANTS } from "../data";
@@ -69,10 +65,13 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                 </motion.div>
               </motion.button>
 
-              <motion.button
+              <motion.a
+                href="/cv.pdf"
+                download="Kadek_Andra_Wikanjaya_Putra_CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover="hover"
                 whileTap={{ scale: 0.96 }}
-                onClick={() => window.open("/cv.pdf", "_blank")}
                 className="group relative pointer-events-auto inline-flex items-center gap-3 sm:gap-4 px-6 py-3.5 sm:px-10 sm:py-5 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-base sm:text-xl font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white"
               >
                 <motion.div
@@ -88,15 +87,15 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                 </span>
                 <motion.div
                   variants={{
-                    hover: { rotate: -45, scale: 1.15 },
+                    hover: { y: 2, scale: 1.15 },
                   }}
-                  initial={{ rotate: 0 }}
+                  initial={{ y: 0 }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950"
                 >
-                  <IconArrowRight className="w-6 h-6 stroke-[2.5]" />
+                  <IconDownload className="w-6 h-6 stroke-[2.5]" />
                 </motion.div>
-              </motion.button>
+              </motion.a>
             </motion.div>
           </div>
 
@@ -106,46 +105,23 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
               whileHover={{ y: -14, scale: 1.05, rotate: 1 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 280, damping: 18, mass: 0.75 }}
-              className="relative p-6 sm:p-8 rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-xl hover:shadow-2xl w-full max-w-[320px] text-center space-y-4 hover:border-black dark:hover:border-white transition-colors duration-300 cursor-pointer"
+              className="relative p-7 sm:p-9 rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-xl hover:shadow-2xl w-full max-w-[340px] text-center space-y-5 hover:border-black dark:hover:border-white transition-colors duration-300 cursor-pointer flex flex-col items-center justify-center"
             >
-              <div className="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-full p-1 border border-neutral-900/15 dark:border-white/20 bg-neutral-900/5 dark:bg-white/10 shadow-lg">
-                <div className="w-full h-full rounded-full backdrop-blur-xl bg-white/80 dark:bg-neutral-900/80 flex items-center justify-center text-neutral-900 dark:text-white">
-                  <IconUser className="w-12 h-12 sm:w-14 sm:h-14" />
-                </div>
+              <div className="relative w-44 h-44 sm:w-56 sm:h-56 mx-auto rounded-full p-1.5 border-2 border-neutral-900/15 dark:border-white/20 bg-neutral-900/5 dark:bg-white/10 shadow-xl overflow-hidden flex items-center justify-center">
+                <img
+                  src="/profile.jpg"
+                  alt="Kadek Andra Wikanjaya Putra"
+                  className="w-full h-full rounded-full object-cover object-[center_44%] scale-150 -translate-x-1"
+                />
               </div>
 
               <div>
-                <h3 className="text-2xl font-mono font-bold text-neutral-900 dark:text-white">Kadek Andra W. P.</h3>
-                <p className="text-sm font-mono pt-1 text-neutral-600 dark:text-neutral-400">
-                  AI Engineer • Informatics ITS
+                <h3 className="text-2xl sm:text-[1.65rem] font-mono font-bold text-neutral-900 dark:text-white leading-tight">
+                  Andra W.
+                </h3>
+                <p className="text-sm sm:text-base font-mono pt-1 text-neutral-600 dark:text-neutral-400">
+                  AI Engineer - Informatics ITS
                 </p>
-              </div>
-
-              <div className="flex justify-center gap-4 pt-2">
-                <a
-                  href="https://github.com/andra-wp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-2xl backdrop-blur-md bg-white/50 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 border border-white/40 dark:border-white/10 text-neutral-800 dark:text-white transition-colors"
-                >
-                  <IconBrandGithub className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://linkedin.com/in/andrapwpt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-2xl backdrop-blur-md bg-white/50 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 border border-white/40 dark:border-white/10 text-neutral-800 dark:text-white transition-colors"
-                >
-                  <IconBrandLinkedin className="w-5 h-5" />
-                </a>
-                <a
-                  href="https://instagram.com/andrawpz"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 rounded-2xl backdrop-blur-md bg-white/50 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/20 border border-white/40 dark:border-white/10 text-neutral-800 dark:text-white transition-colors"
-                >
-                  <IconBrandInstagram className="w-5 h-5" />
-                </a>
               </div>
             </motion.div>
           </div>

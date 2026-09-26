@@ -32,14 +32,14 @@ const SOCIALS = [
   {
     label: "LinkedIn",
     icon: <IconBrandLinkedin className="w-5 h-5" />,
-    href: "https://linkedin.com/in/andrapwpt",
-    username: "andrapwpt",
+    href: "https://linkedin.com/in/andrawpt",
+    username: "andrawpt",
   },
   {
     label: "GitHub",
     icon: <IconBrandGithub className="w-5 h-5" />,
-    href: "https://github.com/andra-wp",
-    username: "@andra-wp",
+    href: "https://github.com/andrawpt",
+    username: "@andrawpt",
   },
   {
     label: "Instagram",

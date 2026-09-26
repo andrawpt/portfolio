@@ -27,8 +27,8 @@ export const CARD_NAV_ITEMS: NavSection[] = [
     links: [
       { label: "Contact Me", href: "#contact", ariaLabel: "Contact Me" },
       { label: "Email", href: "mailto:andrawpt@gmail.com", ariaLabel: "Email Andra" },
-      { label: "LinkedIn", href: "https://linkedin.com/in/andrapwpt", ariaLabel: "LinkedIn" },
-      { label: "GitHub", href: "https://github.com/andra-wp", ariaLabel: "GitHub" },
+      { label: "LinkedIn", href: "https://linkedin.com/in/andrawpt", ariaLabel: "LinkedIn" },
+      { label: "GitHub", href: "https://github.com/andrawpt", ariaLabel: "GitHub" },
     ],
   },
 ];

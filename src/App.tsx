@@ -255,7 +255,7 @@ function AppContent() {
     {
       title: "GitHub",
       icon: <IconBrandGithub className="h-full w-full" />,
-      href: "https://github.com/andra-wp",
+      href: "https://github.com/andrawpt",
     },
     {
       title: "Instagram",
@@ -265,7 +265,7 @@ function AppContent() {
     {
       title: "LinkedIn",
       icon: <IconBrandLinkedin className="h-full w-full" />,
-      href: "https://linkedin.com/in/andrapwpt",
+      href: "https://linkedin.com/in/andrawpt",
     },
   ];
 
