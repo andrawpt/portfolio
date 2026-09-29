@@ -18,7 +18,7 @@ export function SkillsSection() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -40,15 +40,27 @@ export function SkillsSection() {
   const rightY = useTransform(skillsScrollProgress, [0, 0.7, 1], [0, 10, 22]);
 
   const getCardAnimate = (index: number) => {
+    if (isMobile) {
+      return {
+        x: 0,
+        y: 0,
+        rotate: 0,
+        scale: 1,
+        zIndex: 1,
+        opacity: 1,
+        filter: "none",
+      };
+    }
+
     const isHovered = hoveredSkillIndex === index;
     const isAnyHovered = hoveredSkillIndex !== null;
 
     if (isHovered) {
       return {
         x: 0,
-        y: isMobile ? -16 : -52,
+        y: -52,
         rotate: 0,
-        scale: isMobile ? 1.02 : 1.08,
+        scale: 1.08,
         zIndex: 50,
         opacity: 1,
         filter: "blur(0px)",
@@ -57,16 +69,14 @@ export function SkillsSection() {
 
     if (isAnyHovered) {
       let shiftX = 0;
-      if (!isMobile) {
-        if (hoveredSkillIndex !== null && index < hoveredSkillIndex) shiftX = -38;
-        if (hoveredSkillIndex !== null && index > hoveredSkillIndex) shiftX = 38;
-      }
+      if (hoveredSkillIndex !== null && index < hoveredSkillIndex) shiftX = -38;
+      if (hoveredSkillIndex !== null && index > hoveredSkillIndex) shiftX = 38;
 
       return {
         rotate: 0,
-        y: isMobile ? 4 : 14,
+        y: 14,
         x: shiftX,
-        scale: isMobile ? 0.98 : 0.95,
+        scale: 0.95,
         zIndex: BASE_STACK[index].zIndex,
         opacity: 0.45,
         filter: "blur(6px)",
@@ -144,11 +154,12 @@ export function SkillsSection() {
                 >
                   <div
                     className="relative w-full h-full"
-                    onMouseEnter={() => setHoveredSkillIndex(index)}
-                    onMouseLeave={() => setHoveredSkillIndex(null)}
+                    onMouseEnter={() => !isMobile && setHoveredSkillIndex(index)}
+                    onMouseLeave={() => !isMobile && setHoveredSkillIndex(null)}
                   >
                     <motion.div
                       animate={getCardAnimate(index)}
+                      whileTap={isMobile ? { scale: 0.98 } : undefined}
                       transition={{
                         type: "spring",
                         stiffness: 380,
@@ -156,7 +167,7 @@ export function SkillsSection() {
                         mass: 0.7,
                       }}
                       onClick={() => setActiveSkillTab((prev) => (prev === "hard" ? "soft" : "hard"))}
-                      className="w-full h-full"
+                      className="w-full h-full cursor-pointer"
                     >
                       <SkillCard
                         hardCat={hardCat}
@@ -164,6 +175,7 @@ export function SkillsSection() {
                         activeSkillTab={activeSkillTab}
                         isHovered={isHovered}
                         index={index}
+                        isMobile={isMobile}
                       />
                     </motion.div>
                   </div>

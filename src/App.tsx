@@ -314,8 +314,8 @@ function AppContent() {
 
       {showUI && (
         <motion.div
-          initial={{ opacity: 0, y: -45, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{
             type: "spring",
             stiffness: 260,
@@ -331,7 +331,7 @@ function AppContent() {
             menuColor={undefined}
             buttonBgColor={theme.primary}
             buttonTextColor="#fff"
-            ease="elastic.out(1, 0.8)"
+            ease="power2.out"
           />
         </motion.div>
       )}

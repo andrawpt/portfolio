@@ -162,6 +162,8 @@
     width: 100%;
     min-height: 100%;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -215,6 +217,23 @@ body {
 
 .dark .glass-dock-item:hover {
   background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* CardNav Mobile Performance Optimization */
+@media (max-width: 767px) {
+  .card-nav {
+    backdrop-filter: blur(14px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
+    transform: translateZ(0);
+  }
+  .card-nav .glass-dock-item {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+  }
+  .dark .card-nav .glass-dock-item {
+    background: rgba(255, 255, 255, 0.07) !important;
+  }
 }
 
 /* Premium Frosted Glassmorphism Skill Card */

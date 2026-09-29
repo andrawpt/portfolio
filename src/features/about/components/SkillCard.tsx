@@ -8,6 +8,7 @@ interface SkillCardProps {
   activeSkillTab: "hard" | "soft";
   isHovered: boolean;
   index: number;
+  isMobile?: boolean;
 }
 
 export function SkillCard({
@@ -16,11 +17,72 @@ export function SkillCard({
   activeSkillTab,
   isHovered,
   index,
+  isMobile = false,
 }: SkillCardProps) {
   const HardIcon = hardCat.icon;
   const SoftIcon = softCat.icon;
   const flipDelay = activeSkillTab === "soft" ? index * 0.14 : (2 - index) * 0.14;
 
+  // Mobile View: Lightweight fade-in transition without heavy 3D rotation or blur filters
+  if (isMobile) {
+    const currentCat = activeSkillTab === "hard" ? hardCat : softCat;
+    const CurrentIcon = currentCat.icon;
+    const isHard = activeSkillTab === "hard";
+
+    return (
+      <div className="relative w-full h-[450px] rounded-3xl bg-white/95 dark:bg-neutral-900/95 border border-neutral-900/15 dark:border-white/15 p-6 sm:p-8 flex flex-col justify-between shadow-lg overflow-hidden cursor-pointer select-none">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeSkillTab}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="flex flex-col justify-between h-full w-full space-y-4"
+          >
+            <div className="flex items-center justify-between">
+              <div className="p-2.5 rounded-full bg-neutral-900/5 dark:bg-white/10 border border-neutral-900/10 dark:border-white/15 text-neutral-800 dark:text-white">
+                <CurrentIcon className="w-5 h-5 stroke-[1.9]" />
+              </div>
+              <span className="text-[11px] font-mono font-bold tracking-widest text-neutral-500 dark:text-neutral-400 uppercase">
+                {currentCat.tag}
+              </span>
+            </div>
+
+            <div className="flex flex-col space-y-1">
+              <h3 className="text-2xl font-sans font-bold text-neutral-900 dark:text-neutral-100 tracking-tight">
+                {currentCat.title}
+              </h3>
+              <p className="text-xs font-sans font-medium text-neutral-500 dark:text-neutral-400">
+                {currentCat.subtitle}
+              </p>
+            </div>
+
+            <div className="space-y-2 pt-1 flex-1">
+              {currentCat.skills.map((skill, sIdx) => (
+                <div
+                  key={sIdx}
+                  className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-neutral-900/5 dark:bg-white/10 border border-neutral-900/10 dark:border-white/15 text-xs font-sans font-medium text-neutral-800 dark:text-neutral-200 shadow-xs"
+                >
+                  <IconCheck className="w-3.5 h-3.5 text-neutral-900 dark:text-white shrink-0 stroke-[2.2]" />
+                  <span className="truncate">{skill}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="pt-3 flex items-center justify-between text-neutral-900 dark:text-white font-sans font-semibold text-xs border-t border-neutral-900/10 dark:border-white/10">
+              <span>{isHard ? "Technical Focus" : "Leadership & Operations"}</span>
+              <span className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 flex items-center gap-1">
+                Tap to switch <IconArrowRight className="w-3.5 h-3.5 stroke-[2.4]" />
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    );
+  }
+
+  // Desktop View: Original 3D Flip Card
   return (
     <div
       style={{

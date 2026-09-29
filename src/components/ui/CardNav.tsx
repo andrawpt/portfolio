@@ -63,31 +63,13 @@ export const CardNav: FC<CardNavProps> = ({
     const navEl = navRef.current;
     if (!navEl) return 260;
 
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const isMobile = window.innerWidth < 768;
     if (isMobile) {
       const contentEl = navEl.querySelector(".card-nav-content") as HTMLElement;
       if (contentEl) {
-        const wasVisible = contentEl.style.visibility;
-        const wasPointerEvents = contentEl.style.pointerEvents;
-        const wasPosition = contentEl.style.position;
-        const wasHeight = contentEl.style.height;
-
-        contentEl.style.visibility = "visible";
-        contentEl.style.pointerEvents = "auto";
-        contentEl.style.position = "static";
-        contentEl.style.height = "auto";
-
-        const topBar = 60;
-        const padding = 16;
-        const contentHeight = contentEl.scrollHeight;
-
-        contentEl.style.visibility = wasVisible;
-        contentEl.style.pointerEvents = wasPointerEvents;
-        contentEl.style.position = wasPosition;
-        contentEl.style.height = wasHeight;
-
-        return topBar + contentHeight + padding;
+        return Math.max(340, 60 + contentEl.scrollHeight + 16);
       }
+      return 370;
     }
     return 260;
   };
@@ -101,22 +83,50 @@ export const CardNav: FC<CardNavProps> = ({
     const navEl = navRef.current;
     if (!navEl) return null;
 
+    const isMobile = window.innerWidth < 768;
+
     gsap.set(navEl, { height: 60, overflow: "hidden" });
-    gsap.set(cardsRef.current, { y: 30, opacity: 0, scale: 0.95 });
+    gsap.set(cardsRef.current, {
+      y: isMobile ? 8 : 30,
+      opacity: 0,
+      scale: isMobile ? 1 : 0.95,
+    });
 
     const timeline = gsap.timeline({ paused: true });
 
-    timeline.to(navEl, {
-      height: calculateHeight,
-      duration: 0.5,
-      ease: ease || "power3.out",
-    });
+    if (isMobile) {
+      timeline.to(navEl, {
+        height: () => calculateHeight(),
+        duration: 0.3,
+        ease: "power2.out",
+      });
 
-    timeline.to(
-      cardsRef.current,
-      { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 },
-      "-=0.25"
-    );
+      timeline.to(
+        cardsRef.current,
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.22,
+          ease: "power2.out",
+          stagger: 0.03,
+        },
+        "-=0.18"
+      );
+    } else {
+      // Desktop / Laptop: Exact original timeline and ease
+      timeline.to(navEl, {
+        height: 260,
+        duration: 0.5,
+        ease: ease || "power3.out",
+      });
+
+      timeline.to(
+        cardsRef.current,
+        { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 },
+        "-=0.25"
+      );
+    }
 
     return timeline;
   };
@@ -174,11 +184,17 @@ export const CardNav: FC<CardNavProps> = ({
       timeline.play(0);
     } else {
       setIsHamburgerOpen(false);
+      const isMobile = window.innerWidth < 768;
       if (timeline.progress() === 0) {
         setIsExpanded(false);
       } else {
-        timeline.eventCallback("onReverseComplete", () => setIsExpanded(false));
-        timeline.reverse();
+        timeline.eventCallback("onReverseComplete", () => {
+          setIsExpanded(false);
+          if (navRef.current) {
+            gsap.set(navRef.current, { height: 60 });
+          }
+        });
+        timeline.timeScale(isMobile ? 1.4 : 1).reverse();
       }
     }
   };
@@ -194,8 +210,6 @@ export const CardNav: FC<CardNavProps> = ({
       <nav
         ref={navRef}
         style={{
-          backdropFilter: "blur(28px) saturate(190%)",
-          WebkitBackdropFilter: "blur(28px) saturate(190%)",
           ...(baseColor ? { backgroundColor: baseColor } : {}),
         }}
         className="card-nav block h-[60px] p-0 rounded-2xl border relative overflow-hidden glass-dock shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
@@ -231,18 +245,14 @@ export const CardNav: FC<CardNavProps> = ({
         </div>
 
         <div
-          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${
+          className={`card-nav-content absolute left-0 right-0 top-[60px] p-2 flex flex-col items-stretch gap-2 justify-start z-[1] ${
             isExpanded || isHamburgerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          } md:flex-row md:items-end md:gap-[12px]`}
+          } md:flex-row md:items-end md:gap-[12px] md:bottom-0`}
           aria-hidden={!isExpanded}
         >
           {(items || []).slice(0, 3).map((item, idx) => (
             <div
               key={`${item.label}-${idx}`}
-              style={{
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
-              }}
               className="nav-card select-none relative flex flex-col gap-2 p-[14px_18px] rounded-xl min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] glass-dock-item text-neutral-900 dark:text-white transition-colors duration-200"
               ref={setCardRef(idx)}
             >
