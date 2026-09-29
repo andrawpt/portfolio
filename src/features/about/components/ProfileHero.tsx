@@ -15,6 +15,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
     <section className="min-h-[90vh] flex flex-col justify-center py-10 sm:py-16">
       <div className="space-y-12 sm:space-y-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
+          {/* Main Content Column */}
           <div className="lg:col-span-8 space-y-5 sm:space-y-6 text-center sm:text-left flex flex-col items-center sm:items-start">
             <motion.h1
               variants={KINETIC_ITEM_VARIANTS}
@@ -33,15 +34,41 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
               Step inside to get to know me beyond the code — dive into my journey, mindset, and engineering philosophies. <strong className="text-neutral-900 dark:text-white font-semibold">Enjoy exploring!</strong>
             </motion.p>
 
+            {/* Mobile Profile Card: Placed directly below the description on VIEW HP, hidden on Laptop/Desktop */}
+            <div className="w-full flex justify-center lg:hidden pt-2 pb-1">
+              <motion.div
+                variants={KINETIC_ITEM_VARIANTS}
+                className="relative p-6 rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-xl w-full max-w-[320px] text-center space-y-4 hover:border-black dark:hover:border-white transition-colors duration-300 flex flex-col items-center justify-center"
+              >
+                <div className="relative w-40 h-40 mx-auto rounded-full p-1.5 border-2 border-neutral-900/15 dark:border-white/20 bg-neutral-900/5 dark:bg-white/10 shadow-xl overflow-hidden flex items-center justify-center">
+                  <img
+                    src="/profile.jpg"
+                    alt="Kadek Andra Wikanjaya Putra"
+                    className="w-full h-full rounded-full object-cover object-[center_44%] scale-150 -translate-x-1"
+                  />
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-mono font-bold text-neutral-900 dark:text-white leading-tight">
+                    Andra W.
+                  </h3>
+                  <p className="text-sm font-mono pt-1 text-neutral-600 dark:text-neutral-400">
+                    AI Engineer - Informatics ITS
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Buttons (Get In Touch & Resume CV) with thicker/taller height on Mobile */}
             <motion.div
               variants={KINETIC_ITEM_VARIANTS}
-              className="flex flex-wrap items-center justify-center sm:justify-start gap-4 sm:gap-5 pt-3 sm:pt-4"
+              className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-5 pt-3 sm:pt-4 w-full sm:w-auto"
             >
               <motion.button
                 whileHover="hover"
                 whileTap={{ scale: 0.96 }}
                 onClick={onOpenContact}
-                className="group relative pointer-events-auto inline-flex items-center gap-3 sm:gap-4 px-6 py-3.5 sm:px-10 sm:py-5 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-base sm:text-xl font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white"
+                className="group relative pointer-events-auto inline-flex items-center justify-center gap-2 sm:gap-4 px-4 py-4.5 sm:px-10 sm:py-5 min-h-[56px] sm:min-h-0 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-sm sm:text-xl font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white w-full sm:w-auto"
               >
                 <motion.div
                   variants={{
@@ -51,7 +78,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute inset-0 bg-neutral-950 dark:bg-white z-0 pointer-events-none rounded-2xl sm:rounded-3xl"
                 />
-                <span className="relative z-10 font-bold transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950">
+                <span className="relative z-10 font-bold transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950 truncate">
                   Get In Touch
                 </span>
                 <motion.div
@@ -59,9 +86,9 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                     hover: { scale: 1.15 },
                   }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950"
+                  className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950 shrink-0"
                 >
-                  <IconMail className="w-6 h-6 stroke-[2.5]" />
+                  <IconMail className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
                 </motion.div>
               </motion.button>
 
@@ -72,7 +99,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                 rel="noopener noreferrer"
                 whileHover="hover"
                 whileTap={{ scale: 0.96 }}
-                className="group relative pointer-events-auto inline-flex items-center gap-3 sm:gap-4 px-6 py-3.5 sm:px-10 sm:py-5 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-base sm:text-xl font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white"
+                className="group relative pointer-events-auto inline-flex items-center justify-center gap-2 sm:gap-4 px-4 py-4.5 sm:px-10 sm:py-5 min-h-[56px] sm:min-h-0 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-sm sm:text-xl font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white w-full sm:w-auto"
               >
                 <motion.div
                   variants={{
@@ -82,7 +109,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="absolute inset-0 bg-neutral-950 dark:bg-white z-0 pointer-events-none rounded-2xl sm:rounded-3xl"
                 />
-                <span className="relative z-10 font-bold transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950">
+                <span className="relative z-10 font-bold transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950 truncate">
                   Resume / CV
                 </span>
                 <motion.div
@@ -91,15 +118,16 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                   }}
                   initial={{ y: 0 }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950"
+                  className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950 shrink-0"
                 >
-                  <IconDownload className="w-6 h-6 stroke-[2.5]" />
+                  <IconDownload className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
                 </motion.div>
               </motion.a>
             </motion.div>
           </div>
 
-          <div className="lg:col-span-4 flex justify-center">
+          {/* Desktop Right Column Profile Picture Card (hidden on mobile, visible on laptop/desktop) */}
+          <div className="hidden lg:flex lg:col-span-4 justify-center">
             <motion.div
               variants={KINETIC_ITEM_VARIANTS}
               whileHover={{ y: -14, scale: 1.05, rotate: 1 }}

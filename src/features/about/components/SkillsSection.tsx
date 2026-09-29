@@ -100,13 +100,14 @@ export function SkillsSection() {
       ref={skillsSectionRef}
       className="min-h-[88vh] sm:min-h-[92vh] flex flex-col justify-center py-8 sm:py-12"
     >
-      <div className="flex flex-col justify-between space-y-8 sm:space-y-12">
+      <div className="flex flex-col justify-between space-y-6 sm:space-y-12">
+        {/* Title & Subtitle (order-1 on all views) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="space-y-2 text-center sm:text-left"
+          className="order-1 space-y-2 text-center sm:text-left"
         >
           <div className="text-xs font-mono font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">
             Technical & Interpersonal Mastery
@@ -116,7 +117,53 @@ export function SkillsSection() {
           </h2>
         </motion.div>
 
-        <div className="relative flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:-space-x-12 md:-space-x-16 lg:-space-x-20 xl:-space-x-24 w-full pt-4 sm:pt-6 pb-6 sm:pb-10">
+        {/* Button Toggle: order-2 on mobile (above cards), order-3 on desktop (below cards) */}
+        <div className="order-2 sm:order-3 flex items-center justify-center pt-1 sm:pt-8 pb-1 sm:pb-4">
+          <div className="relative flex items-center p-1.5 rounded-2xl sm:rounded-3xl bg-neutral-900/5 dark:bg-white/10 border border-neutral-900/10 dark:border-white/15 shadow-xl">
+            <button
+              onClick={() => setActiveSkillTab("hard")}
+              className={cn(
+                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
+                activeSkillTab === "hard"
+                  ? "text-white dark:text-neutral-950"
+                  : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white"
+              )}
+            >
+              {activeSkillTab === "hard" && (
+                <motion.div
+                  layoutId="activeSkillPill"
+                  transition={{ type: "spring", stiffness: 480, damping: 32 }}
+                  className="absolute inset-0 rounded-xl sm:rounded-2xl bg-neutral-950 dark:bg-white shadow-md -z-10"
+                />
+              )}
+              <IconCode className="w-5 h-5 stroke-[2]" />
+              <span>Hard Skills</span>
+            </button>
+
+            <button
+              onClick={() => setActiveSkillTab("soft")}
+              className={cn(
+                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
+                activeSkillTab === "soft"
+                  ? "text-white dark:text-neutral-950"
+                  : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white"
+              )}
+            >
+              {activeSkillTab === "soft" && (
+                <motion.div
+                  layoutId="activeSkillPill"
+                  transition={{ type: "spring", stiffness: 480, damping: 32 }}
+                  className="absolute inset-0 rounded-xl sm:rounded-2xl bg-neutral-950 dark:bg-white shadow-md -z-10"
+                />
+              )}
+              <IconUsers className="w-5 h-5 stroke-[2]" />
+              <span>Soft Skills</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Cards Container: order-3 on mobile (below buttons), order-2 on desktop (above buttons) */}
+        <div className="order-3 sm:order-2 relative flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:-space-x-12 md:-space-x-16 lg:-space-x-20 xl:-space-x-24 w-full pt-2 sm:pt-6 pb-4 sm:pb-10">
           {HARD_SKILL_CATEGORIES.map((hardCat, index) => {
             const softCat = SOFT_SKILL_CATEGORIES[index];
             const isHovered = hoveredSkillIndex === index;
@@ -183,50 +230,6 @@ export function SkillsSection() {
               </motion.div>
             );
           })}
-        </div>
-
-        <div className="flex items-center justify-center pt-6 sm:pt-8 pb-4">
-          <div className="relative flex items-center p-1.5 rounded-2xl sm:rounded-3xl bg-neutral-900/5 dark:bg-white/10 border border-neutral-900/10 dark:border-white/15 shadow-xl">
-            <button
-              onClick={() => setActiveSkillTab("hard")}
-              className={cn(
-                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
-                activeSkillTab === "hard"
-                  ? "text-white dark:text-neutral-950"
-                  : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white"
-              )}
-            >
-              {activeSkillTab === "hard" && (
-                <motion.div
-                  layoutId="activeSkillPill"
-                  transition={{ type: "spring", stiffness: 480, damping: 32 }}
-                  className="absolute inset-0 rounded-xl sm:rounded-2xl bg-neutral-950 dark:bg-white shadow-md -z-10"
-                />
-              )}
-              <IconCode className="w-5 h-5 stroke-[2]" />
-              <span>Hard Skills</span>
-            </button>
-
-            <button
-              onClick={() => setActiveSkillTab("soft")}
-              className={cn(
-                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
-                activeSkillTab === "soft"
-                  ? "text-white dark:text-neutral-950"
-                  : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white"
-              )}
-            >
-              {activeSkillTab === "soft" && (
-                <motion.div
-                  layoutId="activeSkillPill"
-                  transition={{ type: "spring", stiffness: 480, damping: 32 }}
-                  className="absolute inset-0 rounded-xl sm:rounded-2xl bg-neutral-950 dark:bg-white shadow-md -z-10"
-                />
-              )}
-              <IconUsers className="w-5 h-5 stroke-[2]" />
-              <span>Soft Skills</span>
-            </button>
-          </div>
         </div>
       </div>
     </motion.section>
