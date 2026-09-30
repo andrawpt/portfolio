@@ -323,7 +323,7 @@ function AppContent() {
             mass: 0.8,
             delay: 0.2,
           }}
-          className="fixed top-0 inset-x-0 z-[1000] pointer-events-none"
+          className="fixed top-0 inset-x-0 z-[1000] pointer-events-none hidden md:block"
         >
           <CardNav
             items={CARD_NAV_ITEMS}
@@ -392,7 +392,7 @@ function AppContent() {
                   <div className="flex flex-col items-center sm:items-start space-y-3 sm:space-y-4">
                     <motion.div
                       variants={kineticItemVariants}
-                      className="w-full text-center sm:text-left overflow-hidden"
+                      className="w-full text-center sm:text-left overflow-visible pb-2 sm:pb-3"
                     >
                       {showUI && (
                         <TextType
@@ -403,7 +403,7 @@ function AppContent() {
                             "RAG & Agentic AI",
                             "Informatics at ITS",
                           ]}
-                          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-neutral-900 dark:text-neutral-100 font-mono leading-[1.1] md:leading-none drop-shadow-sm text-center sm:text-left"
+                          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-neutral-900 dark:text-neutral-100 font-mono leading-[1.18] md:leading-[1.1] drop-shadow-sm text-center sm:text-left py-1.5 sm:py-2.5 inline-block"
                           typingSpeed={110}
                           deletingSpeed={45}
                           pauseDuration={2800}

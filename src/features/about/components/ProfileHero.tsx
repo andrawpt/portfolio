@@ -186,3 +186,4 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
     </section>
   );
 }
+
