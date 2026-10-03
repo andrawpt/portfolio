@@ -226,13 +226,234 @@ body {
     -webkit-backdrop-filter: blur(14px) saturate(160%) !important;
     transform: translateZ(0);
   }
-  .card-nav .glass-dock-item {
+  .card-nav .glass-dock-item,
+  .card-nav .liquid-glass-item {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     background: rgba(0, 0, 0, 0.04) !important;
   }
-  .dark .card-nav .glass-dock-item {
+  .dark .card-nav .glass-dock-item,
+  .dark .card-nav .liquid-glass-item {
     background: rgba(255, 255, 255, 0.07) !important;
+  }
+}
+
+/* ==========================================================================
+   macOS "Liquid Glass" material (Navbar + Dock)
+   - Very clear tint, light blur + vibrancy (saturate/brightness)
+   - Specular rim light (gradient border via mask)
+   - Top sheen + pointer-following highlight (--lg-x / --lg-y)
+   - Real refraction via SVG displacement on Chromium desktop
+     (enabled by `html.liquid-refraction`, see LiquidGlassFilter.tsx)
+   Custom properties are registered with @property so tint / highlight
+   position interpolate smoothly instead of jumping.
+   ========================================================================== */
+@property --lg-x {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+@property --lg-y {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+@property --lg-tint {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+@property --lg-tint-2 {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+@property --lg-glow-opacity {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0.5;
+}
+
+.liquid-glass,
+.liquid-glass-item {
+  --lg-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --lg-x: 50%;
+  --lg-y: 0%;
+  --lg-blur: 4px;
+  --lg-tint: rgba(255, 255, 255, 0.07);
+  --lg-tint-2: rgba(255, 255, 255, 0.015);
+  --lg-rim-strong: rgba(255, 255, 255, 0.9);
+  --lg-rim-soft: rgba(255, 255, 255, 0.1);
+  --lg-sheen: rgba(255, 255, 255, 0.3);
+  --lg-glow: rgba(255, 255, 255, 0.6);
+  --lg-glow-opacity: 0.45;
+  /* NOTE: positioning is left to utilities (relative/absolute) on the element */
+  isolation: isolate;
+  border: 0;
+  background: linear-gradient(160deg, var(--lg-tint) 0%, var(--lg-tint-2) 100%);
+  backdrop-filter: blur(var(--lg-blur)) saturate(165%) brightness(1.04);
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(165%) brightness(1.04);
+  box-shadow:
+    0 8px 28px -8px rgba(0, 0, 0, 0.14),
+    0 1px 3px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.3),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.65),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 0 18px rgba(255, 255, 255, 0.06);
+  transition:
+    --lg-tint 450ms var(--lg-ease),
+    --lg-tint-2 450ms var(--lg-ease),
+    --lg-x 380ms var(--lg-ease),
+    --lg-y 380ms var(--lg-ease),
+    --lg-glow-opacity 450ms var(--lg-ease),
+    box-shadow 450ms var(--lg-ease),
+    scale 250ms var(--lg-ease);
+}
+
+/* Specular rim — brighter at top-left & bottom-right like light passing through glass */
+.liquid-glass::before,
+.liquid-glass-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    var(--lg-rim-strong) 0%,
+    var(--lg-rim-soft) 28%,
+    transparent 50%,
+    var(--lg-rim-soft) 72%,
+    var(--lg-rim-strong) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Top sheen + pointer-following light */
+.liquid-glass::after,
+.liquid-glass-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      240px circle at var(--lg-x) var(--lg-y),
+      var(--lg-glow),
+      transparent 62%
+    ),
+    linear-gradient(180deg, var(--lg-sheen) 0%, transparent 40%);
+  opacity: var(--lg-glow-opacity);
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.liquid-glass:hover {
+  --lg-glow-opacity: 0.8;
+}
+
+/* Smaller inner bubbles (dock icons, nav cards) */
+.liquid-glass-item {
+  --lg-blur: 2px;
+  --lg-tint: rgba(255, 255, 255, 0.12);
+  --lg-tint-2: rgba(255, 255, 255, 0.02);
+  --lg-glow-opacity: 0.6;
+  box-shadow:
+    0 3px 10px -3px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 0 8px rgba(255, 255, 255, 0.08);
+}
+
+.liquid-glass-item::after {
+  background: linear-gradient(180deg, var(--lg-sheen) 0%, transparent 55%);
+}
+
+.liquid-glass-item:hover {
+  --lg-tint: rgba(255, 255, 255, 0.3);
+  --lg-tint-2: rgba(255, 255, 255, 0.08);
+  --lg-glow-opacity: 0.9;
+}
+
+/* Dark mode */
+.dark .liquid-glass,
+.dark .liquid-glass-item {
+  --lg-tint: rgba(36, 36, 44, 0.16);
+  --lg-tint-2: rgba(16, 16, 22, 0.08);
+  --lg-rim-strong: rgba(255, 255, 255, 0.45);
+  --lg-rim-soft: rgba(255, 255, 255, 0.05);
+  --lg-sheen: rgba(255, 255, 255, 0.12);
+  --lg-glow: rgba(255, 255, 255, 0.22);
+}
+
+.dark .liquid-glass {
+  box-shadow:
+    0 10px 32px -8px rgba(0, 0, 0, 0.5),
+    0 1px 3px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 0.5px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.24),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 18px rgba(255, 255, 255, 0.03);
+}
+
+.dark .liquid-glass-item {
+  --lg-tint: rgba(255, 255, 255, 0.05);
+  --lg-tint-2: rgba(255, 255, 255, 0.01);
+  box-shadow:
+    0 3px 10px -3px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0.5px rgba(255, 255, 255, 0.26),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 8px rgba(255, 255, 255, 0.03);
+}
+
+.dark .liquid-glass-item:hover {
+  --lg-tint: rgba(255, 255, 255, 0.14);
+  --lg-tint-2: rgba(255, 255, 255, 0.05);
+}
+
+/* Real lens refraction (Chromium desktop only — others gracefully fall back) */
+html.liquid-refraction .liquid-glass {
+  backdrop-filter: blur(var(--lg-blur)) saturate(165%) brightness(1.04) url(#liquid-glass-refraction);
+}
+
+/* Mobile: lighter effect for performance */
+@media (max-width: 767px) {
+  .liquid-glass {
+    --lg-blur: 8px;
+  }
+  .liquid-glass-item {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass,
+  .liquid-glass-item {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .liquid-glass,
+  .liquid-glass-item {
+    --lg-tint: rgba(245, 245, 247, 0.92);
+    --lg-tint-2: rgba(245, 245, 247, 0.92);
+  }
+  .dark .liquid-glass,
+  .dark .liquid-glass-item {
+    --lg-tint: rgba(28, 28, 32, 0.94);
+    --lg-tint-2: rgba(28, 28, 32, 0.94);
   }
 }
 
