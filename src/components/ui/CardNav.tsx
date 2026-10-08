@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState, type FC } from "react";
 import { gsap } from "gsap";
 import { GoArrowUpRight } from "react-icons/go";
+import { trackLiquidGlassPointer, resetLiquidGlassPointer } from "@/lib/liquid-glass";
 
 export interface CardNavLink {
   label: string;
@@ -117,14 +118,14 @@ export const CardNav: FC<CardNavProps> = ({
       // Desktop / Laptop: Exact original timeline and ease
       timeline.to(navEl, {
         height: 260,
-        duration: 0.5,
-        ease: ease || "power3.out",
+        duration: 0.65,
+        ease: ease || "expo.out",
       });
 
       timeline.to(
         cardsRef.current,
-        { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: "power3.out", stagger: 0.06 },
-        "-=0.25"
+        { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: "expo.out", stagger: 0.05 },
+        "-=0.45"
       );
     }
 
@@ -212,7 +213,9 @@ export const CardNav: FC<CardNavProps> = ({
         style={{
           ...(baseColor ? { backgroundColor: baseColor } : {}),
         }}
-        className="card-nav block h-[60px] p-0 rounded-2xl border relative overflow-hidden glass-dock shadow-[0_20px_50px_rgba(0,0,0,0.15)]"
+        onPointerMove={trackLiquidGlassPointer}
+        onPointerLeave={resetLiquidGlassPointer}
+        className="card-nav block h-[60px] p-0 rounded-[22px] relative overflow-hidden liquid-glass"
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]">
           <div
@@ -253,7 +256,7 @@ export const CardNav: FC<CardNavProps> = ({
           {(items || []).slice(0, 3).map((item, idx) => (
             <div
               key={`${item.label}-${idx}`}
-              className="nav-card select-none relative flex flex-col gap-2 p-[14px_18px] rounded-xl min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] glass-dock-item text-neutral-900 dark:text-white transition-colors duration-200"
+              className="nav-card select-none relative flex flex-col gap-2 p-[14px_18px] rounded-[16px] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] liquid-glass-item text-neutral-900 dark:text-white transition-colors duration-200"
               ref={setCardRef(idx)}
             >
               <div className="nav-card-label font-normal tracking-[-0.5px] text-[18px] md:text-[22px]">

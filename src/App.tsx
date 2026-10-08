@@ -10,6 +10,7 @@ import RotatingText from "@/components/ui/RotatingText";
 import { ColorThemeProvider, useColorTheme } from "@/contexts/ColorThemeContext";
 import { ContactModal } from "@/components/ui/ContactModal";
 import CardNav from "@/components/ui/CardNav";
+import { LiquidGlassFilter } from "@/components/ui/LiquidGlassFilter";
 import { useTheme } from "@/hooks/use-theme";
 import ThreeCardsSection from "@/features/home/ThreeCardsSection";
 import AboutMePage from "@/features/about/AboutMePage";
@@ -331,7 +332,7 @@ function AppContent() {
             menuColor={undefined}
             buttonBgColor={theme.primary}
             buttonTextColor="#fff"
-            ease="power2.out"
+            ease="expo.out"
           />
         </motion.div>
       )}
@@ -475,10 +476,19 @@ function AppContent() {
 
       <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
 
+      <LiquidGlassFilter />
+
       {showUI && (
         <motion.div
           initial={{ opacity: 0, y: 55, scale: 0.82, filter: "blur(8px)" }}
-          animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+          animate={{
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            filter: "blur(0px)",
+            // An ancestor `filter` breaks backdrop-filter sampling of the glass dock
+            transitionEnd: { filter: "none" },
+          }}
           transition={{
             type: "spring",
             stiffness: 260,

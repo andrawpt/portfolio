@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode, type MouseEvent } from "react";
+import { useRef, useState, type ReactNode, type MouseEvent, type RefObject } from "react";
 import {
   AnimatePresence,
   MotionValue,
@@ -10,6 +10,7 @@ import {
 import { IconLayoutNavbarCollapse } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/hooks/use-theme";
+import { trackLiquidGlassPointer, resetLiquidGlassPointer } from "@/lib/liquid-glass";
 import type { DockItem } from "@/types/navigation";
 
 export type { DockItem };
@@ -54,7 +55,7 @@ function FloatingDockMobile({
       transition={{ type: "spring", stiffness: 320, damping: 22, delay: 0.32 }}
       layout
       className={cn(
-        "relative block md:hidden z-50 flex items-center rounded-3xl glass-dock text-neutral-900 dark:text-white p-2 transition-colors duration-300 overflow-hidden max-w-[calc(100vw-1.25rem)] shadow-2xl",
+        "relative block md:hidden z-50 flex items-center rounded-[28px] liquid-glass text-neutral-900 dark:text-white p-2 overflow-hidden max-w-[calc(100vw-1.25rem)]",
         className
       )}
     >
@@ -91,7 +92,7 @@ function FloatingDockMobile({
                   item.onClick(e);
                 }
               }}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full glass-dock-item active:scale-90 transition-all text-neutral-900 dark:text-white cursor-pointer shadow-md"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full liquid-glass-item active:scale-90 transition-transform text-neutral-900 dark:text-white cursor-pointer"
               title={item.title}
             >
               <div className="h-5.5 w-5.5 flex items-center justify-center">{item.icon}</div>
@@ -113,19 +114,23 @@ function FloatingDockDesktop({
   className?: string;
 }) {
   const mouseX = useMotionValue(Infinity);
+  const dockRef = useRef<HTMLDivElement>(null);
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
 
   return (
     <motion.div
-      onMouseMove={(e) => {
-        mouseX.set(e.pageX);
+      ref={dockRef}
+      onPointerMove={(e) => {
+        mouseX.set(e.clientX);
+        trackLiquidGlassPointer(e);
       }}
-      onMouseLeave={() => {
+      onPointerLeave={(e) => {
         mouseX.set(Infinity);
         setHoveredHref(null);
+        resetLiquidGlassPointer(e);
       }}
       className={cn(
-        "mx-auto hidden h-20 items-end gap-5 rounded-3xl px-5 pb-3.5 md:flex glass-dock transition-all duration-300",
+        "relative mx-auto hidden h-[76px] items-end gap-4 rounded-[30px] px-4 pb-3 md:flex liquid-glass",
         className
       )}
     >
@@ -136,13 +141,16 @@ function FloatingDockDesktop({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{
             type: "spring",
-            stiffness: 340,
-            damping: 20,
+            stiffness: 260,
+            damping: 24,
             delay: 0.35 + index * 0.04,
           }}
         >
           <IconContainer
             mouseX={mouseX}
+            dockRef={dockRef}
+            index={index}
+            count={items.length}
             isDark={isDark}
             isHovered={hoveredHref === item.href}
             onHoverChange={(hovered) => {
@@ -157,8 +165,18 @@ function FloatingDockDesktop({
   );
 }
 
+// Dock magnification tuning (macOS-like)
+const ICON_BASE = 52;
+const ICON_MAX = 84;
+const ICON_GAP = 16; // keep in sync with `gap-4` on the dock
+const FALLOFF_SIGMA = 72;
+const DOCK_SPRING = { mass: 0.15, stiffness: 260, damping: 17 };
+
 function IconContainer({
   mouseX,
+  dockRef,
+  index,
+  count,
   title,
   icon,
   href,
@@ -166,7 +184,10 @@ function IconContainer({
   isHovered,
   onHoverChange,
 }: {
-  mouseX: MotionValue;
+  mouseX: MotionValue<number>;
+  dockRef: RefObject<HTMLDivElement | null>;
+  index: number;
+  count: number;
   title: string;
   icon: ReactNode;
   href: string;
@@ -177,28 +198,29 @@ function IconContainer({
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const distance = useTransform(mouseX, (val) => {
-    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
-    return val - bounds.x - bounds.width / 2;
+  // Distance is measured from the icon's *resting* center, derived from the dock's
+  // center (which stays fixed while the dock grows symmetrically). This avoids the
+  // jittery feedback loop of measuring an icon that is itself resizing.
+  const targetSize = useTransform(mouseX, (val) => {
+    const dock = dockRef.current;
+    if (!dock || !Number.isFinite(val)) return ICON_BASE;
+    const rect = dock.getBoundingClientRect();
+    const dockCenter = rect.left + rect.width / 2;
+    const restCenter = dockCenter + (index - (count - 1) / 2) * (ICON_BASE + ICON_GAP);
+    const d = val - restCenter;
+    const influence = Math.exp(-(d * d) / (2 * FALLOFF_SIGMA * FALLOFF_SIGMA));
+    return ICON_BASE + (ICON_MAX - ICON_BASE) * influence;
   });
 
-  const widthTransform = useTransform(distance, [-150, 0, 150], [52, 96, 52]);
-  const heightTransform = useTransform(distance, [-150, 0, 150], [52, 96, 52]);
-
-  const widthTransformIcon = useTransform(distance, [-150, 0, 150], [26, 48, 26]);
-  const heightTransformIcon = useTransform(distance, [-150, 0, 150], [26, 48, 26]);
-
-  const width = useSpring(widthTransform, { mass: 0.1, stiffness: 150, damping: 12 });
-  const height = useSpring(heightTransform, { mass: 0.1, stiffness: 150, damping: 12 });
-  const widthIcon = useSpring(widthTransformIcon, { mass: 0.1, stiffness: 150, damping: 12 });
-  const heightIcon = useSpring(heightTransformIcon, { mass: 0.1, stiffness: 150, damping: 12 });
+  const size = useSpring(targetSize, DOCK_SPRING);
+  const iconSize = useTransform(size, (s) => s * 0.5);
 
   return (
     <a
       href={onClick ? "#" : href}
       onClick={(e) => {
         onHoverChange(true);
-        mouseX.set(e.pageX);
+        mouseX.set(e.clientX);
         if (onClick) {
           e.preventDefault();
           onClick(e);
@@ -212,13 +234,13 @@ function IconContainer({
         data-dock-theme={href === "#theme" ? "true" : undefined}
         whileTap={{ scale: 0.88 }}
         style={{
-          width,
-          height,
+          width: size,
+          height: size,
         }}
         onMouseEnter={() => onHoverChange(true)}
         onMouseLeave={() => onHoverChange(false)}
         className={cn(
-          "relative flex aspect-square items-center justify-center rounded-full glass-dock-item text-neutral-900 dark:text-white transition-colors duration-150 cursor-pointer"
+          "relative flex aspect-square items-center justify-center rounded-full liquid-glass-item text-neutral-900 dark:text-white cursor-pointer"
         )}
       >
         <AnimatePresence mode="wait">
@@ -228,8 +250,8 @@ function IconContainer({
               initial={{ opacity: 0, y: 10, scale: 0.8, x: "-50%" }}
               animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
               exit={{ opacity: 0, y: 4, scale: 0.85, x: "-50%" }}
-              transition={{ type: "spring", stiffness: 480, damping: 22 }}
-              className="absolute -top-11 left-1/2 w-fit rounded-xl border border-white/30 dark:border-white/20 px-3 py-1.5 text-xs sm:text-sm font-mono font-bold tracking-wide whitespace-pre shadow-xl z-50 pointer-events-none glass-dock text-neutral-900 dark:text-white"
+              transition={{ type: "spring", stiffness: 420, damping: 32, mass: 0.8 }}
+              className="absolute -top-12 left-1/2 w-fit rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-mono font-bold tracking-wide whitespace-pre z-50 pointer-events-none liquid-glass text-neutral-900 dark:text-white"
             >
               {title}
             </motion.div>
@@ -242,8 +264,8 @@ function IconContainer({
             initial={{ rotate: -50, scale: 0.5, opacity: 0 }}
             animate={{ rotate: 0, scale: 1, opacity: 1 }}
             exit={{ rotate: 50, scale: 0.5, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 420, damping: 20 }}
-            style={{ width: widthIcon, height: heightIcon }}
+            transition={{ type: "spring", stiffness: 360, damping: 28 }}
+            style={{ width: iconSize, height: iconSize }}
             className="flex items-center justify-center pointer-events-none"
           >
             {icon}
