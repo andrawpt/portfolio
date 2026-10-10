@@ -301,13 +301,12 @@ body {
     inset 0 -1px 1px rgba(255, 255, 255, 0.15),
     inset 0 0 18px rgba(255, 255, 255, 0.06);
   transition:
-    --lg-tint 450ms var(--lg-ease),
-    --lg-tint-2 450ms var(--lg-ease),
-    --lg-x 380ms var(--lg-ease),
-    --lg-y 380ms var(--lg-ease),
-    --lg-glow-opacity 450ms var(--lg-ease),
-    box-shadow 450ms var(--lg-ease),
-    scale 250ms var(--lg-ease);
+    --lg-tint 350ms var(--lg-ease),
+    --lg-tint-2 350ms var(--lg-ease),
+    --lg-glow-opacity 350ms var(--lg-ease),
+    box-shadow 350ms var(--lg-ease);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Specular rim — brighter at top-left & bottom-right like light passing through glass */
@@ -367,6 +366,9 @@ body {
   --lg-tint: rgba(255, 255, 255, 0.12);
   --lg-tint-2: rgba(255, 255, 255, 0.02);
   --lg-glow-opacity: 0.6;
+  will-change: width, height, transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   box-shadow:
     0 3px 10px -3px rgba(0, 0, 0, 0.1),
     inset 0 1px 0.5px rgba(255, 255, 255, 0.8),
@@ -376,6 +378,8 @@ body {
 
 .liquid-glass-item::after {
   background: linear-gradient(180deg, var(--lg-sheen) 0%, transparent 55%);
+  mix-blend-mode: normal;
+  opacity: 0.8;
 }
 
 .liquid-glass-item:hover {
