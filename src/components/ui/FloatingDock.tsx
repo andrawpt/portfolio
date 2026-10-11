@@ -1,4 +1,4 @@
-import { useRef, useState, type ReactNode, type MouseEvent, type RefObject } from "react";
+import { useRef, useState, useEffect, type ReactNode, type MouseEvent, type RefObject } from "react";
 import {
   AnimatePresence,
   MotionValue,
@@ -115,11 +115,26 @@ function FloatingDockDesktop({
 }) {
   const mouseX = useMotionValue(Infinity);
   const dockRef = useRef<HTMLDivElement>(null);
+  const dockCenterRef = useRef<number>(0);
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
+
+  const updateDockCenter = () => {
+    if (dockRef.current) {
+      const rect = dockRef.current.getBoundingClientRect();
+      dockCenterRef.current = rect.left + rect.width / 2;
+    }
+  };
+
+  useEffect(() => {
+    updateDockCenter();
+    window.addEventListener("resize", updateDockCenter, { passive: true });
+    return () => window.removeEventListener("resize", updateDockCenter);
+  }, []);
 
   return (
     <motion.div
       ref={dockRef}
+      onPointerEnter={updateDockCenter}
       onPointerMove={(e) => {
         mouseX.set(e.clientX);
         trackLiquidGlassPointer(e);
@@ -130,7 +145,7 @@ function FloatingDockDesktop({
         resetLiquidGlassPointer(e);
       }}
       className={cn(
-        "relative mx-auto hidden h-[76px] items-end gap-4 rounded-[30px] px-4 pb-3 md:flex liquid-glass",
+        "relative mx-auto hidden h-[76px] items-end gap-4 rounded-[30px] px-4 pb-3 md:flex liquid-glass transform-gpu",
         className
       )}
     >
@@ -148,7 +163,7 @@ function FloatingDockDesktop({
         >
           <IconContainer
             mouseX={mouseX}
-            dockRef={dockRef}
+            dockCenterRef={dockCenterRef}
             index={index}
             count={items.length}
             isDark={isDark}
@@ -165,16 +180,16 @@ function FloatingDockDesktop({
   );
 }
 
-// Dock magnification tuning (macOS-like)
+// Dock magnification tuning (macOS-like 60fps+ performance)
 const ICON_BASE = 52;
 const ICON_MAX = 84;
 const ICON_GAP = 16; // keep in sync with `gap-4` on the dock
 const FALLOFF_SIGMA = 72;
-const DOCK_SPRING = { mass: 0.15, stiffness: 260, damping: 17 };
+const DOCK_SPRING = { mass: 0.1, stiffness: 290, damping: 20 };
 
 function IconContainer({
   mouseX,
-  dockRef,
+  dockCenterRef,
   index,
   count,
   title,
@@ -185,7 +200,7 @@ function IconContainer({
   onHoverChange,
 }: {
   mouseX: MotionValue<number>;
-  dockRef: RefObject<HTMLDivElement | null>;
+  dockCenterRef: RefObject<number>;
   index: number;
   count: number;
   title: string;
@@ -198,14 +213,12 @@ function IconContainer({
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Distance is measured from the icon's *resting* center, derived from the dock's
-  // center (which stays fixed while the dock grows symmetrically). This avoids the
-  // jittery feedback loop of measuring an icon that is itself resizing.
+  // Distance is measured from the cached resting center of each icon.
+  // Zero layout thrashing / zero getBoundingClientRect calls during mouse move!
   const targetSize = useTransform(mouseX, (val) => {
-    const dock = dockRef.current;
-    if (!dock || !Number.isFinite(val)) return ICON_BASE;
-    const rect = dock.getBoundingClientRect();
-    const dockCenter = rect.left + rect.width / 2;
+    if (!Number.isFinite(val)) return ICON_BASE;
+    const dockCenter = dockCenterRef.current;
+    if (!dockCenter) return ICON_BASE;
     const restCenter = dockCenter + (index - (count - 1) / 2) * (ICON_BASE + ICON_GAP);
     const d = val - restCenter;
     const influence = Math.exp(-(d * d) / (2 * FALLOFF_SIGMA * FALLOFF_SIGMA));
@@ -213,7 +226,8 @@ function IconContainer({
   });
 
   const size = useSpring(targetSize, DOCK_SPRING);
-  const iconSize = useTransform(size, (s) => s * 0.5);
+  // Scale the inner icon via GPU transform instead of resizing SVG bounding box
+  const iconScale = useTransform(size, [ICON_BASE, ICON_MAX], [1, 1.48]);
 
   return (
     <a
@@ -240,7 +254,7 @@ function IconContainer({
         onMouseEnter={() => onHoverChange(true)}
         onMouseLeave={() => onHoverChange(false)}
         className={cn(
-          "relative flex aspect-square items-center justify-center rounded-full liquid-glass-item text-neutral-900 dark:text-white cursor-pointer"
+          "relative flex aspect-square items-center justify-center rounded-full liquid-glass-item text-neutral-900 dark:text-white cursor-pointer transform-gpu will-change-[width,height]"
         )}
       >
         <AnimatePresence mode="wait">
@@ -265,8 +279,8 @@ function IconContainer({
             animate={{ rotate: 0, scale: 1, opacity: 1 }}
             exit={{ rotate: 50, scale: 0.5, opacity: 0 }}
             transition={{ type: "spring", stiffness: 360, damping: 28 }}
-            style={{ width: iconSize, height: iconSize }}
-            className="flex items-center justify-center pointer-events-none"
+            style={{ scale: iconScale }}
+            className="w-7 h-7 flex items-center justify-center pointer-events-none transform-gpu"
           >
             {icon}
           </motion.div>
