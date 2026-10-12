@@ -86,11 +86,12 @@ export const CardNav: FC<CardNavProps> = ({
 
     const isMobile = window.innerWidth < 768;
 
-    gsap.set(navEl, { height: 60, overflow: "hidden" });
+    gsap.set(navEl, { height: 60, overflow: "hidden", force3D: true });
     gsap.set(cardsRef.current, {
       y: isMobile ? 8 : 30,
       opacity: 0,
       scale: isMobile ? 1 : 0.95,
+      force3D: true,
     });
 
     const timeline = gsap.timeline({ paused: true });
@@ -98,8 +99,9 @@ export const CardNav: FC<CardNavProps> = ({
     if (isMobile) {
       timeline.to(navEl, {
         height: () => calculateHeight(),
-        duration: 0.3,
-        ease: "power2.out",
+        duration: 0.35,
+        ease: "back.out(1.15)",
+        force3D: true,
       });
 
       timeline.to(
@@ -108,24 +110,34 @@ export const CardNav: FC<CardNavProps> = ({
           y: 0,
           opacity: 1,
           scale: 1,
-          duration: 0.22,
-          ease: "power2.out",
+          duration: 0.26,
+          ease: "back.out(1.2)",
           stagger: 0.03,
+          force3D: true,
         },
-        "-=0.18"
+        "-=0.2"
       );
     } else {
-      // Desktop / Laptop: Exact original timeline and ease
+      // Desktop / Laptop: Elastic bouncy overshoot and settle
       timeline.to(navEl, {
         height: 260,
-        duration: 0.65,
-        ease: ease || "expo.out",
+        duration: 0.6,
+        ease: ease || "back.out(1.25)",
+        force3D: true,
       });
 
       timeline.to(
         cardsRef.current,
-        { y: 0, opacity: 1, scale: 1, duration: 0.55, ease: "expo.out", stagger: 0.05 },
-        "-=0.45"
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.48,
+          ease: "back.out(1.3)",
+          stagger: 0.045,
+          force3D: true,
+        },
+        "-=0.42"
       );
     }
 
@@ -215,7 +227,7 @@ export const CardNav: FC<CardNavProps> = ({
         }}
         onPointerMove={trackLiquidGlassPointer}
         onPointerLeave={resetLiquidGlassPointer}
-        className="card-nav block h-[60px] p-0 rounded-[22px] relative overflow-hidden liquid-glass"
+        className="card-nav block h-[60px] p-0 rounded-[22px] relative overflow-hidden liquid-glass transform-gpu will-change-[height]"
       >
         <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between p-2 pl-[1.1rem] z-[2]">
           <div
@@ -256,7 +268,7 @@ export const CardNav: FC<CardNavProps> = ({
           {(items || []).slice(0, 3).map((item, idx) => (
             <div
               key={`${item.label}-${idx}`}
-              className="nav-card select-none relative flex flex-col gap-2 p-[14px_18px] rounded-[16px] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] liquid-glass-item text-neutral-900 dark:text-white transition-colors duration-200"
+              className="nav-card select-none relative flex flex-col gap-2 p-[14px_18px] rounded-[16px] min-w-0 flex-[1_1_auto] h-auto min-h-[60px] md:h-full md:min-h-0 md:flex-[1_1_0%] liquid-glass-item text-neutral-900 dark:text-white transition-colors duration-200 transform-gpu will-change-transform"
               ref={setCardRef(idx)}
             >
               <div className="nav-card-label font-normal tracking-[-0.5px] text-[18px] md:text-[22px]">
