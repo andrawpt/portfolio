@@ -315,13 +315,13 @@ function AppContent() {
 
       {showUI && (
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
             type: "spring",
-            stiffness: 260,
-            damping: 24,
-            mass: 0.8,
+            stiffness: 220,
+            damping: 14,
+            mass: 0.9,
             delay: 0.2,
           }}
           className="fixed top-0 inset-x-0 z-[1000] pointer-events-none hidden md:block"
@@ -332,7 +332,7 @@ function AppContent() {
             menuColor={undefined}
             buttonBgColor={theme.primary}
             buttonTextColor="#fff"
-            ease="expo.out"
+            ease="back.out(1.25)"
           />
         </motion.div>
       )}
