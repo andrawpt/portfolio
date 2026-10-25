@@ -12,14 +12,14 @@ interface ProfileHeroProps {
 
 export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
   return (
-    <section className="min-h-[90vh] flex flex-col justify-center py-10 sm:py-16">
-      <div className="space-y-12 sm:space-y-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
+    <section className="min-h-[85vh] flex flex-col justify-center py-8 sm:py-12 lg:py-10 xl:py-16">
+      <div className="space-y-8 sm:space-y-12 lg:space-y-10 xl:space-y-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-8 xl:gap-12 items-center">
           {/* Main Content Column */}
-          <div className="lg:col-span-8 space-y-5 sm:space-y-6 text-center sm:text-left flex flex-col items-center sm:items-start">
+          <div className="lg:col-span-8 space-y-4 sm:space-y-6 text-center sm:text-left flex flex-col items-center sm:items-start">
             <motion.h1
               variants={KINETIC_ITEM_VARIANTS}
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-mono tracking-tight text-neutral-900 dark:text-white leading-[1.1] text-center sm:text-left"
+              className="text-3xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-black font-mono tracking-tight text-neutral-900 dark:text-white leading-[1.1] text-center sm:text-left"
             >
               Architecting <br />
               <span className="bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-500 dark:from-white dark:via-neutral-200 dark:to-neutral-400 bg-clip-text text-transparent">
@@ -29,7 +29,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
 
             <motion.p
               variants={KINETIC_ITEM_VARIANTS}
-              className="text-base sm:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed font-sans max-w-2xl text-center sm:text-left"
+              className="text-base sm:text-lg lg:text-lg xl:text-xl text-neutral-600 dark:text-neutral-300 leading-relaxed font-sans max-w-2xl text-center sm:text-left"
             >
               Step inside to get to know me beyond the code — dive into my journey, mindset, and engineering philosophies. <strong className="text-neutral-900 dark:text-white font-semibold">Enjoy exploring!</strong>
             </motion.p>
@@ -62,13 +62,13 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
             {/* Buttons (Get In Touch & Resume CV) with thicker/taller height on Mobile */}
             <motion.div
               variants={KINETIC_ITEM_VARIANTS}
-              className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-5 pt-3 sm:pt-4 w-full sm:w-auto"
+              className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-4 lg:gap-4 xl:gap-5 pt-2 sm:pt-4 w-full sm:w-auto"
             >
               <motion.button
                 whileHover="hover"
                 whileTap={{ scale: 0.96 }}
                 onClick={onOpenContact}
-                className="group relative pointer-events-auto inline-flex items-center justify-center gap-2 sm:gap-4 px-4 py-4.5 sm:px-10 sm:py-5 min-h-[56px] sm:min-h-0 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-sm sm:text-xl font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white w-full sm:w-auto"
+                className="group relative pointer-events-auto inline-flex items-center justify-center gap-2 sm:gap-3.5 px-4 py-4.5 sm:px-8 sm:py-4 lg:px-7 lg:py-3.5 xl:px-10 xl:py-5 min-h-[56px] sm:min-h-0 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-sm sm:text-base lg:text-base xl:text-lg font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white w-full sm:w-auto"
               >
                 <motion.div
                   variants={{
@@ -88,7 +88,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950 shrink-0"
                 >
-                  <IconMail className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
+                  <IconMail className="w-4.5 h-4.5 sm:w-5 sm:h-5 stroke-[2.5]" />
                 </motion.div>
               </motion.button>
 
@@ -99,7 +99,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                 rel="noopener noreferrer"
                 whileHover="hover"
                 whileTap={{ scale: 0.96 }}
-                className="group relative pointer-events-auto inline-flex items-center justify-center gap-2 sm:gap-4 px-4 py-4.5 sm:px-10 sm:py-5 min-h-[56px] sm:min-h-0 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-sm sm:text-xl font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white w-full sm:w-auto"
+                className="group relative pointer-events-auto inline-flex items-center justify-center gap-2 sm:gap-3.5 px-4 py-4.5 sm:px-8 sm:py-4 lg:px-7 lg:py-3.5 xl:px-10 xl:py-5 min-h-[56px] sm:min-h-0 rounded-2xl sm:rounded-3xl overflow-hidden font-mono text-sm sm:text-base lg:text-base xl:text-lg font-bold tracking-wide text-neutral-900 dark:text-white backdrop-blur-xl bg-transparent border border-neutral-900/20 dark:border-white/20 shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer hover:border-black dark:hover:border-white w-full sm:w-auto"
               >
                 <motion.div
                   variants={{
@@ -120,7 +120,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                   className="relative z-10 flex items-center justify-center text-neutral-900 dark:text-white transition-colors duration-400 group-hover:text-white dark:group-hover:text-neutral-950 shrink-0"
                 >
-                  <IconDownload className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
+                  <IconDownload className="w-4.5 h-4.5 sm:w-5 sm:h-5 stroke-[2.5]" />
                 </motion.div>
               </motion.a>
             </motion.div>
@@ -133,9 +133,9 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
               whileHover={{ y: -14, scale: 1.05, rotate: 1 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 280, damping: 18, mass: 0.75 }}
-              className="relative p-7 sm:p-9 rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-xl hover:shadow-2xl w-full max-w-[340px] text-center space-y-5 hover:border-black dark:hover:border-white transition-colors duration-300 cursor-pointer flex flex-col items-center justify-center"
+              className="relative p-6 sm:p-7 lg:p-6 xl:p-9 rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-xl hover:shadow-2xl w-full max-w-[300px] xl:max-w-[340px] text-center space-y-4 xl:space-y-5 hover:border-black dark:hover:border-white transition-colors duration-300 cursor-pointer flex flex-col items-center justify-center"
             >
-              <div className="relative w-44 h-44 sm:w-56 sm:h-56 mx-auto rounded-full p-1.5 border-2 border-neutral-900/15 dark:border-white/20 bg-neutral-900/5 dark:bg-white/10 shadow-xl overflow-hidden flex items-center justify-center">
+              <div className="relative w-40 h-40 sm:w-48 sm:h-48 lg:w-44 lg:h-44 xl:w-56 xl:h-56 mx-auto rounded-full p-1.5 border-2 border-neutral-900/15 dark:border-white/20 bg-neutral-900/5 dark:bg-white/10 shadow-xl overflow-hidden flex items-center justify-center">
                 <img
                   src="/profile.jpg"
                   alt="Kadek Andra Wikanjaya Putra"
@@ -144,10 +144,10 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
               </div>
 
               <div>
-                <h3 className="text-2xl sm:text-[1.65rem] font-mono font-bold text-neutral-900 dark:text-white leading-tight">
+                <h3 className="text-xl sm:text-2xl xl:text-[1.65rem] font-mono font-bold text-neutral-900 dark:text-white leading-tight">
                   Andra W.
                 </h3>
-                <p className="text-sm sm:text-base font-mono pt-1 text-neutral-600 dark:text-neutral-400">
+                <p className="text-xs sm:text-sm xl:text-base font-mono pt-1 text-neutral-600 dark:text-neutral-400">
                   AI Engineer - Informatics ITS
                 </p>
               </div>
@@ -155,7 +155,7 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
           </div>
         </div>
 
-        <motion.div variants={KINETIC_ITEM_VARIANTS} className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 pt-4">
+        <motion.div variants={KINETIC_ITEM_VARIANTS} className="grid grid-cols-2 md:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-4 xl:gap-6 pt-2 sm:pt-4">
           {ABOUT_STATS.map((stat, idx) => (
             <motion.div
               key={idx}
@@ -171,12 +171,12 @@ export function ProfileHero({ onOpenContact }: ProfileHeroProps) {
                 damping: 18,
                 mass: 0.75,
               }}
-              className="p-6 rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-lg hover:shadow-2xl text-center space-y-2 hover:border-black dark:hover:border-white transition-colors duration-300 cursor-pointer"
+              className="p-4 sm:p-5 lg:p-5 xl:p-6 rounded-2xl sm:rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-lg hover:shadow-2xl text-center space-y-1 sm:space-y-2 hover:border-black dark:hover:border-white transition-colors duration-300 cursor-pointer"
             >
-              <div className="text-4xl sm:text-5xl font-mono font-black text-neutral-900 dark:text-white drop-shadow-sm">
+              <div className="text-3xl sm:text-4xl lg:text-4xl xl:text-5xl font-mono font-black text-neutral-900 dark:text-white drop-shadow-sm">
                 <CounterNumber value={stat.value} />
               </div>
-              <div className="text-xs sm:text-sm font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider font-semibold">
+              <div className="text-[11px] sm:text-xs xl:text-sm font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider font-semibold">
                 {stat.label}
               </div>
             </motion.div>

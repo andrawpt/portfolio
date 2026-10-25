@@ -12,7 +12,7 @@ import { TechMarquee } from "./components/TechMarquee";
 import { SingleRowBentoMarqueeTrack } from "./components/SingleRowBentoMarqueeTrack";
 import type { ProjectsShowcaseProps, ProjectItem } from "./types";
 
-export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcaseProps) {
+export default function ProjectsShowcase(_props: ProjectsShowcaseProps) {
   const { theme } = useColorTheme();
   const [projectsOrder] = useState<ProjectItem[]>(PROJECTS_DATA);
 
@@ -43,19 +43,19 @@ export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcasePr
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto text-left space-y-16 sm:space-y-28">
-        <section ref={section1Ref} className="min-h-screen flex flex-col justify-center pt-20 sm:pt-24 pb-12 sm:pb-16">
+      <div className="relative z-10 max-w-7xl mx-auto text-left space-y-12 sm:space-y-20 lg:space-y-24 xl:space-y-28">
+        <section ref={section1Ref} className="min-h-[85vh] flex flex-col justify-center pt-16 sm:pt-20 lg:pt-14 xl:pt-20 pb-8 sm:pb-12">
           <motion.div
             style={{
               opacity: section1Opacity,
               y: section1Y,
             }}
-            className="my-auto space-y-5 sm:space-y-6 text-center sm:text-left max-w-5xl will-change-transform flex flex-col items-center sm:items-start w-full"
+            className="my-auto space-y-4 sm:space-y-6 text-center sm:text-left max-w-5xl will-change-transform flex flex-col items-center sm:items-start w-full"
           >
-            <div className="space-y-2.5 sm:space-y-3 max-w-4xl text-center sm:text-left">
+            <div className="space-y-2 sm:space-y-3 max-w-4xl text-center sm:text-left">
               <motion.h1
                 variants={KINETIC_ITEM_VARIANTS}
-                className="text-3xl sm:text-6xl md:text-7xl font-black font-mono tracking-tight text-neutral-900 dark:text-white leading-[1.08] text-center sm:text-left"
+                className="text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-black font-mono tracking-tight text-neutral-900 dark:text-white leading-[1.08] text-center sm:text-left"
               >
                 Crafting Intelligent Systems &{" "}
                 <span className="bg-gradient-to-r from-neutral-900 via-neutral-700 to-neutral-500 dark:from-white dark:via-neutral-200 dark:to-neutral-400 bg-clip-text text-transparent">
@@ -65,7 +65,7 @@ export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcasePr
 
               <motion.p
                 variants={KINETIC_ITEM_VARIANTS}
-                className="text-base sm:text-xl font-normal text-neutral-600 dark:text-neutral-300 font-sans leading-relaxed max-w-3xl text-center sm:text-left"
+                className="text-base sm:text-lg lg:text-lg xl:text-xl font-normal text-neutral-600 dark:text-neutral-300 font-sans leading-relaxed max-w-3xl text-center sm:text-left"
               >
                 A dedicated portfolio of machine learning architectures, generative AI engines, computer vision pipelines, and production web applications built with mathematical rigor.
               </motion.p>
@@ -77,7 +77,7 @@ export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcasePr
 
             <motion.div
               variants={KINETIC_ITEM_VARIANTS}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 pt-1 sm:pt-2"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 lg:gap-4 xl:gap-5 pt-1"
             >
               {PROJECT_STATS.map((stat, idx) => {
                 const variant = STAT_FLOAT_VARIANTS[idx % STAT_FLOAT_VARIANTS.length];
@@ -131,12 +131,12 @@ export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcasePr
                         damping: 18,
                         mass: 0.75,
                       }}
-                      className="p-6 rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-lg hover:shadow-2xl text-left space-y-1.5 transition-colors duration-300 cursor-pointer relative z-10"
+                      className="p-5 sm:p-6 lg:p-5 xl:p-6 rounded-2xl sm:rounded-3xl backdrop-blur-2xl bg-white/40 dark:bg-neutral-900/40 border border-white/40 dark:border-white/15 shadow-lg hover:shadow-2xl text-left space-y-1 sm:space-y-1.5 transition-colors duration-300 cursor-pointer relative z-10"
                     >
                       <div className="text-3xl sm:text-4xl font-mono font-black text-neutral-900 dark:text-white">
                         <CounterNumber value={stat.value} />
                       </div>
-                      <div className="text-xs font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider font-semibold">
+                      <div className="text-[11px] sm:text-xs font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider font-semibold">
                         {stat.label}
                       </div>
                     </motion.div>
@@ -149,7 +149,7 @@ export default function ProjectsShowcase({ onBack: _onBack }: ProjectsShowcasePr
 
         <section
           ref={section2Ref}
-          className="min-h-screen flex flex-col justify-center pt-20 sm:pt-28 pb-16 sm:pb-24 scroll-mt-28"
+          className="min-h-screen flex flex-col justify-center pt-14 sm:pt-20 lg:pt-16 xl:pt-24 pb-12 sm:pb-20 scroll-mt-28"
         >
           <motion.div variants={KINETIC_ITEM_VARIANTS} className="my-auto space-y-6 sm:space-y-8 text-left w-full">
             <div className="space-y-3 text-left">

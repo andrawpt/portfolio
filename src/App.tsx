@@ -386,8 +386,8 @@ function AppContent() {
             exit="exit"
             className="w-full transform-gpu will-change-transform"
           >
-            <section id="home" className="relative z-10 w-full min-h-screen flex items-center justify-center px-4 sm:px-10 md:px-16 lg:px-24 xl:px-32 py-16 sm:py-20 overflow-hidden">
-              <div className="w-full max-w-[92rem] grid grid-cols-1 md:grid-cols-[1.75fr_0.25fr] gap-8 lg:gap-16 items-center relative z-10">
+            <section id="home" className="relative z-10 w-full min-h-screen flex items-center justify-center px-4 sm:px-8 md:px-12 lg:px-16 xl:px-24 py-12 sm:py-16 lg:py-12 xl:py-16 overflow-hidden">
+              <div className="w-full max-w-[92rem] grid grid-cols-1 md:grid-cols-[1.75fr_0.25fr] gap-8 lg:gap-14 items-center relative z-10">
                 <div className="flex flex-col items-center sm:items-start space-y-4 sm:space-y-6 min-w-0 text-center sm:text-left">
                   <div className="flex flex-col items-center sm:items-start space-y-3 sm:space-y-4">
                     <motion.div
@@ -403,7 +403,7 @@ function AppContent() {
                             "RAG & Agentic AI",
                             "Informatics at ITS",
                           ]}
-                          className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter text-neutral-900 dark:text-neutral-100 font-mono leading-[1.18] md:leading-[1.1] drop-shadow-sm text-center sm:text-left py-1.5 sm:py-2.5 inline-block"
+                          className="text-4xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl font-black tracking-tighter text-neutral-900 dark:text-neutral-100 font-mono leading-[1.18] md:leading-[1.1] drop-shadow-sm text-center sm:text-left py-1.5 sm:py-2.5 inline-block"
                           typingSpeed={110}
                           deletingSpeed={45}
                           pauseDuration={2800}
@@ -412,12 +412,12 @@ function AppContent() {
                       )}
                     </motion.div>
 
-                    <div className="flex flex-col items-center sm:items-start space-y-5 sm:space-y-6 pt-1">
+                    <div className="flex flex-col items-center sm:items-start space-y-4 sm:space-y-6 pt-1">
                       <motion.div
                         variants={kineticItemVariants}
                         className="flex flex-wrap items-center justify-center sm:justify-start gap-2 sm:gap-3.5"
                       >
-                        <span className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter text-neutral-800 dark:text-neutral-200 font-mono leading-tight md:leading-none shrink-0 text-center sm:text-left">
+                        <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl font-black tracking-tighter text-neutral-800 dark:text-neutral-200 font-mono leading-tight md:leading-none shrink-0 text-center sm:text-left">
                           I'm passionate about
                         </span>
                         {showUI && (
@@ -430,7 +430,7 @@ function AppContent() {
                             ]}
                             splitBy={isMobileScreen ? "words" : "characters"}
                             staggerDuration={isMobileScreen ? 0 : 0.025}
-                            mainClassName="px-3.5 py-1.5 sm:px-5 sm:py-2.5 overflow-hidden rounded-xl sm:rounded-2xl text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter font-mono leading-tight md:leading-none w-fit border backdrop-blur-2xl bg-white/10 dark:bg-white/5 border-white/30 dark:border-white/15 text-neutral-900 dark:text-white shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.4),0_8px_24px_rgba(0,0,0,0.1)] relative whitespace-nowrap"
+                            mainClassName="px-3.5 py-1.5 sm:px-4 sm:py-2 lg:px-4 lg:py-2 xl:px-5 xl:py-2.5 overflow-hidden rounded-xl sm:rounded-2xl text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl font-black tracking-tighter font-mono leading-tight md:leading-none w-fit border backdrop-blur-2xl bg-white/10 dark:bg-white/5 border-white/30 dark:border-white/15 text-neutral-900 dark:text-white shadow-[inset_0_1.5px_2px_rgba(255,255,255,0.4),0_8px_24px_rgba(0,0,0,0.1)] relative whitespace-nowrap"
                             staggerFrom={"first"}
                             initial={{ y: "100%", opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
@@ -445,14 +445,14 @@ function AppContent() {
 
                       <motion.p
                         variants={kineticItemVariants}
-                        className="text-lg sm:text-xl md:text-2xl font-normal text-neutral-700 dark:text-neutral-300 font-sans max-w-2xl leading-relaxed pt-1 text-center sm:text-left mx-auto sm:mx-0"
+                        className="text-base sm:text-lg lg:text-xl xl:text-xl 2xl:text-2xl font-normal text-neutral-700 dark:text-neutral-300 font-sans max-w-xl lg:max-w-2xl leading-relaxed pt-1 text-center sm:text-left mx-auto sm:mx-0"
                       >
                         Informatics student at ITS with 2 years AI Engineer experience specializing in RAG workflows, agentic AI systems, machine learning pipelines, and data analysis.
                       </motion.p>
 
                       <motion.div
                         variants={kineticItemVariants}
-                        className="pt-3 flex justify-center sm:justify-start"
+                        className="pt-2 sm:pt-3 flex justify-center sm:justify-start"
                       >
                         <GetStartedButton onClick={scrollToCardsSection} />
                       </motion.div>
@@ -486,7 +486,7 @@ function AppContent() {
             mass: 0.8,
             delay: 0.32,
           }}
-          className="fixed bottom-4 sm:bottom-6 inset-x-0 mx-auto w-fit z-50 flex justify-center pointer-events-auto"
+          className="fixed bottom-3 sm:bottom-5 lg:bottom-4 xl:bottom-6 inset-x-0 mx-auto w-fit z-50 flex justify-center pointer-events-auto"
         >
           <FloatingDock items={dockItems} mobileItems={mobileDockItems} />
         </motion.div>

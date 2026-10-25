@@ -84,9 +84,9 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
             exit={{ opacity: 0, scale: 0.9, y: 25, filter: "blur(12px)" }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[90%] max-w-md"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[92%] sm:w-[90%] max-w-md max-h-[90vh] flex flex-col my-auto"
           >
-            <div className="bg-white dark:bg-neutral-900 rounded-3xl shadow-2xl p-8">
+            <div className="bg-white dark:bg-neutral-900 rounded-3xl shadow-2xl p-6 sm:p-8 max-h-[88vh] overflow-y-auto no-scrollbar">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-black tracking-tighter text-neutral-800 dark:text-neutral-100 font-mono">
                   Get in Touch

@@ -16,12 +16,17 @@ export function SkillsSection() {
   const skillsSectionRef = useRef<HTMLElement>(null);
   const [activeSkillTab, setActiveSkillTab] = useState<"hard" | "soft">("hard");
   const [isMobile, setIsMobile] = useState(false);
+  const [isLaptopScreen, setIsLaptopScreen] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const checkDimensions = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsLaptopScreen(width >= 768 && width < 1536);
+    };
+    checkDimensions();
+    window.addEventListener("resize", checkDimensions);
+    return () => window.removeEventListener("resize", checkDimensions);
   }, []);
 
   const { scrollYProgress: skillsScrollProgress } = useScroll({
@@ -29,15 +34,20 @@ export function SkillsSection() {
     offset: ["start 90%", "center center"],
   });
 
-  const leftXSpread = useTransform(skillsScrollProgress, [0, 0.7, 1], [-175, -50, 28]);
+  const leftXSpreadDesktop = useTransform(skillsScrollProgress, [0, 0.7, 1], [-175, -50, 28]);
+  const leftXSpreadLaptop = useTransform(skillsScrollProgress, [0, 0.7, 1], [-65, -20, 14]);
   const leftRotate = useTransform(skillsScrollProgress, [0, 0.7, 1], [0, -4, -10]);
   const leftY = useTransform(skillsScrollProgress, [0, 0.7, 1], [0, 10, 22]);
 
   const centerY = useTransform(skillsScrollProgress, [0, 0.7, 1], [0, -5, -10]);
 
-  const rightXSpread = useTransform(skillsScrollProgress, [0, 0.7, 1], [175, 50, -28]);
+  const rightXSpreadDesktop = useTransform(skillsScrollProgress, [0, 0.7, 1], [175, 50, -28]);
+  const rightXSpreadLaptop = useTransform(skillsScrollProgress, [0, 0.7, 1], [65, 20, -14]);
   const rightRotate = useTransform(skillsScrollProgress, [0, 0.7, 1], [0, 4, 10]);
   const rightY = useTransform(skillsScrollProgress, [0, 0.7, 1], [0, 10, 22]);
+
+  const leftXSpread = isLaptopScreen ? leftXSpreadLaptop : leftXSpreadDesktop;
+  const rightXSpread = isLaptopScreen ? rightXSpreadLaptop : rightXSpreadDesktop;
 
   const getCardAnimate = (index: number) => {
     if (isMobile) {
@@ -98,16 +108,16 @@ export function SkillsSection() {
     <motion.section
       variants={KINETIC_ITEM_VARIANTS}
       ref={skillsSectionRef}
-      className="min-h-[88vh] sm:min-h-[92vh] flex flex-col justify-center py-8 sm:py-12"
+      className="min-h-[82vh] sm:min-h-[88vh] flex flex-col justify-center py-6 sm:py-10 lg:py-8 xl:py-12"
     >
-      <div className="flex flex-col justify-between space-y-6 sm:space-y-12">
+      <div className="flex flex-col justify-between space-y-6 sm:space-y-10 lg:space-y-8 xl:space-y-12">
         {/* Title & Subtitle (order-1 on all views) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="order-1 space-y-2 text-center sm:text-left"
+          className="order-1 space-y-1.5 sm:space-y-2 text-center sm:text-left"
         >
           <div className="text-xs font-mono font-bold text-neutral-500 dark:text-neutral-400 uppercase tracking-widest">
             Technical & Interpersonal Mastery
@@ -118,12 +128,12 @@ export function SkillsSection() {
         </motion.div>
 
         {/* Button Toggle: order-2 on mobile (above cards), order-3 on desktop (below cards) */}
-        <div className="order-2 sm:order-3 flex items-center justify-center pt-1 sm:pt-8 pb-1 sm:pb-4">
+        <div className="order-2 sm:order-3 flex items-center justify-center pt-1 sm:pt-6 lg:pt-4 xl:pt-8 pb-1 sm:pb-3">
           <div className="relative flex items-center p-1.5 rounded-2xl sm:rounded-3xl bg-neutral-900/5 dark:bg-white/10 border border-neutral-900/10 dark:border-white/15 shadow-xl">
             <button
               onClick={() => setActiveSkillTab("hard")}
               className={cn(
-                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
+                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
                 activeSkillTab === "hard"
                   ? "text-white dark:text-neutral-950"
                   : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white"
@@ -143,7 +153,7 @@ export function SkillsSection() {
             <button
               onClick={() => setActiveSkillTab("soft")}
               className={cn(
-                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
+                "relative z-10 flex items-center justify-center gap-2.5 w-[145px] sm:w-[165px] py-2.5 sm:py-3.5 rounded-xl sm:rounded-2xl text-sm sm:text-base font-mono font-bold transition-colors duration-300 cursor-pointer",
                 activeSkillTab === "soft"
                   ? "text-white dark:text-neutral-950"
                   : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-white"
@@ -163,7 +173,7 @@ export function SkillsSection() {
         </div>
 
         {/* Cards Container: order-3 on mobile (below buttons), order-2 on desktop (above buttons) */}
-        <div className="order-3 sm:order-2 relative flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:-space-x-12 md:-space-x-16 lg:-space-x-20 xl:-space-x-24 w-full pt-2 sm:pt-6 pb-4 sm:pb-10">
+        <div className="order-3 sm:order-2 relative flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:-space-x-12 md:-space-x-14 lg:-space-x-14 xl:-space-x-16 2xl:-space-x-24 w-full pt-2 sm:pt-4 lg:pt-3 xl:pt-6 pb-4 sm:pb-8">
           {HARD_SKILL_CATEGORIES.map((hardCat, index) => {
             const softCat = SOFT_SKILL_CATEGORIES[index];
             const isHovered = hoveredSkillIndex === index;
@@ -177,7 +187,7 @@ export function SkillsSection() {
               <motion.div
                 key={index}
                 style={{ x: scrollX, y: scrollY, rotate: scrollRotate, zIndex: isHovered ? 50 : baseZ }}
-                className="relative w-full max-w-[360px] sm:max-w-none sm:w-[320px] md:w-[350px] lg:w-[360px] xl:w-[390px] shrink-0"
+                className="relative w-full max-w-[360px] sm:max-w-none sm:w-[310px] md:w-[330px] lg:w-[315px] xl:w-[335px] 2xl:w-[390px] shrink-0"
               >
                 <motion.div
                   animate={

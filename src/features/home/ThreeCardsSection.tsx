@@ -17,12 +17,17 @@ export function ThreeCardsSection({
   const [selectedCard, setSelectedCard] = useState<HomeCardItem | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLaptopScreen, setIsLaptopScreen] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const checkDimensions = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsLaptopScreen(width >= 768 && width < 1536);
+    };
+    checkDimensions();
+    window.addEventListener("resize", checkDimensions);
+    return () => window.removeEventListener("resize", checkDimensions);
   }, []);
 
   const handleHover = (index: number | null) => {
@@ -37,15 +42,20 @@ export function ThreeCardsSection({
   const deckOpacity = useTransform(scrollYProgress, [0, 0.35], [0, 1]);
   const deckY = useTransform(scrollYProgress, [0, 0.45], [70, 0]);
 
-  const leftXSpread = useTransform(scrollYProgress, [0, 0.7, 1], [-175, -50, 28]);
+  const leftXSpreadDesktop = useTransform(scrollYProgress, [0, 0.7, 1], [-175, -50, 28]);
+  const leftXSpreadLaptop = useTransform(scrollYProgress, [0, 0.7, 1], [-70, -22, 14]);
   const leftRotate = useTransform(scrollYProgress, [0, 0.7, 1], [0, -4, -10]);
   const leftY = useTransform(scrollYProgress, [0, 0.7, 1], [0, 10, 22]);
 
   const centerY = useTransform(scrollYProgress, [0, 0.7, 1], [0, -5, -10]);
 
-  const rightXSpread = useTransform(scrollYProgress, [0, 0.7, 1], [175, 50, -28]);
+  const rightXSpreadDesktop = useTransform(scrollYProgress, [0, 0.7, 1], [175, 50, -28]);
+  const rightXSpreadLaptop = useTransform(scrollYProgress, [0, 0.7, 1], [70, 22, -14]);
   const rightRotate = useTransform(scrollYProgress, [0, 0.7, 1], [0, 4, 10]);
   const rightY = useTransform(scrollYProgress, [0, 0.7, 1], [0, 10, 22]);
+
+  const leftXSpread = isLaptopScreen ? leftXSpreadLaptop : leftXSpreadDesktop;
+  const rightXSpread = isLaptopScreen ? rightXSpreadLaptop : rightXSpreadDesktop;
 
   const getCardAnimate = (index: number) => {
     const isHovered = hoveredIndex === index;
@@ -96,7 +106,7 @@ export function ThreeCardsSection({
     <section
       ref={sectionRef}
       id="cards-section"
-      className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center py-16 sm:py-32 px-4 sm:px-10 md:px-14 lg:px-20 xl:px-28 transition-colors duration-500 overflow-hidden"
+      className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center py-12 sm:py-20 lg:py-16 xl:py-24 2xl:py-32 px-4 sm:px-8 md:px-10 lg:px-12 xl:px-16 2xl:px-28 transition-colors duration-500 overflow-hidden"
     >
       <div className="max-w-[94rem] mx-auto w-full flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-8 xl:gap-14">
         <div className="flex flex-col items-center sm:items-start text-center sm:text-left space-y-4 sm:space-y-6 w-full lg:w-5/12 xl:w-4/12 shrink-0 z-10">
@@ -111,7 +121,7 @@ export function ThreeCardsSection({
               mass: 0.8,
               delay: 0.1,
             }}
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl font-black font-mono tracking-tighter text-neutral-900 dark:text-neutral-100 leading-[0.95] drop-shadow-sm text-center sm:text-left"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-black font-mono tracking-tighter text-neutral-900 dark:text-neutral-100 leading-[0.98] drop-shadow-sm text-center sm:text-left"
           >
             Discover <br className="hidden sm:block" />
             My World
@@ -126,7 +136,7 @@ export function ThreeCardsSection({
               ease: [0.16, 1, 0.3, 1],
               delay: 0.2,
             }}
-            className="text-sm sm:text-lg md:text-xl font-normal text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed text-center sm:text-left"
+            className="text-sm sm:text-base lg:text-base xl:text-lg 2xl:text-xl font-normal text-neutral-600 dark:text-neutral-400 font-sans leading-relaxed text-center sm:text-left max-w-md lg:max-w-none"
           >
             Hover over any fanned card on the deck to lift it up and explore my background, projects, and experiences.
           </motion.p>
@@ -136,7 +146,7 @@ export function ThreeCardsSection({
           style={{ opacity: deckOpacity, y: deckY }}
           className="w-full lg:w-7/12 xl:w-8/12 flex items-center justify-center lg:justify-end z-20"
         >
-          <div className="relative flex flex-col sm:flex-row items-center justify-center lg:justify-end space-y-4 sm:space-y-0 sm:-space-x-12 md:-space-x-16 lg:-space-x-20 xl:-space-x-24 w-full pt-4 sm:pt-8 pb-8 sm:pb-14">
+          <div className="relative flex flex-col sm:flex-row items-center justify-center lg:justify-end space-y-4 sm:space-y-0 sm:-space-x-12 md:-space-x-14 lg:-space-x-14 xl:-space-x-16 2xl:-space-x-24 w-full pt-4 sm:pt-8 pb-8 sm:pb-14">
             {CARDS_DATA.map((card, index) => {
               const IconComp = card.icon;
               const isHovered = hoveredIndex === index;
@@ -150,7 +160,7 @@ export function ThreeCardsSection({
                 <motion.div
                   key={card.id}
                   style={{ x: scrollX, y: scrollY, rotate: scrollRotate, zIndex: isHovered ? 50 : baseZ }}
-                  className="relative w-full max-w-[360px] sm:max-w-none sm:w-[320px] md:w-[350px] lg:w-[360px] xl:w-[390px] shrink-0"
+                  className="relative w-full max-w-[360px] sm:max-w-none sm:w-[310px] md:w-[330px] lg:w-[315px] xl:w-[335px] 2xl:w-[390px] shrink-0"
                 >
                   <motion.div
                     animate={
@@ -201,7 +211,7 @@ export function ThreeCardsSection({
                           backdropFilter: isMobile ? "none" : "blur(12px) saturate(160%)",
                           WebkitBackdropFilter: isMobile ? "none" : "blur(12px) saturate(160%)",
                         }}
-                        className={`group relative flex flex-col justify-between p-6 sm:p-8 md:p-9 w-full rounded-3xl backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-200 cursor-pointer overflow-hidden ${
+                        className={`group relative flex flex-col justify-between p-6 sm:p-7 lg:p-7 xl:p-8 2xl:p-9 w-full rounded-3xl backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-200 cursor-pointer overflow-hidden ${
                           isHovered
                             ? "bg-white/80 dark:bg-neutral-900/80 border border-white/60 dark:border-white/30 shadow-[0_28px_56px_rgba(0,0,0,0.15)] dark:shadow-[0_28px_56px_rgba(0,0,0,0.7)]"
                             : "bg-white/70 dark:bg-neutral-900/70 border border-white/40 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:border-white/60 dark:hover:border-white/30"

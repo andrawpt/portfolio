@@ -88,7 +88,7 @@ export function SkillCard({
       style={{
         perspective: 1200,
       }}
-      className="relative w-full h-[460px] sm:h-[490px] md:h-[510px] cursor-pointer"
+      className="relative w-full h-[460px] sm:h-[490px] md:h-[500px] lg:h-[465px] xl:h-[485px] 2xl:h-[510px] cursor-pointer"
     >
       <motion.div
         animate={{
@@ -111,7 +111,7 @@ export function SkillCard({
             backdropFilter: "blur(12px) saturate(160%)",
             WebkitBackdropFilter: "blur(12px) saturate(160%)",
           }}
-          className={`absolute inset-0 flex flex-col justify-between p-6 sm:p-8 md:p-9 w-full h-full rounded-3xl backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-200 cursor-pointer overflow-hidden ${
+          className={`absolute inset-0 flex flex-col justify-between p-6 sm:p-7 lg:p-6 xl:p-8 2xl:p-9 w-full h-full rounded-3xl backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-200 cursor-pointer overflow-hidden ${
             isHovered
               ? "bg-white/80 dark:bg-neutral-900/80 border border-white/60 dark:border-white/30 shadow-[0_28px_56px_rgba(0,0,0,0.15)] dark:shadow-[0_28px_56px_rgba(0,0,0,0.7)]"
               : "bg-white/70 dark:bg-neutral-900/70 border border-white/40 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:border-white/60 dark:hover:border-white/30"
@@ -216,7 +216,7 @@ export function SkillCard({
             backdropFilter: "blur(12px) saturate(160%)",
             WebkitBackdropFilter: "blur(12px) saturate(160%)",
           }}
-          className={`absolute inset-0 flex flex-col justify-between p-6 sm:p-8 md:p-9 w-full h-full rounded-3xl backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-200 cursor-pointer overflow-hidden ${
+          className={`absolute inset-0 flex flex-col justify-between p-6 sm:p-7 lg:p-6 xl:p-8 2xl:p-9 w-full h-full rounded-3xl backdrop-blur-md transition-[border-color,background-color,box-shadow] duration-200 cursor-pointer overflow-hidden ${
             isHovered
               ? "bg-white/80 dark:bg-neutral-900/80 border border-white/60 dark:border-white/30 shadow-[0_28px_56px_rgba(0,0,0,0.15)] dark:shadow-[0_28px_56px_rgba(0,0,0,0.7)]"
               : "bg-white/70 dark:bg-neutral-900/70 border border-white/40 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:border-white/60 dark:hover:border-white/30"

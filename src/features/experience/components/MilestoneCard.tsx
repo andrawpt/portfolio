@@ -35,7 +35,7 @@ export function MilestoneCard({
       }}
       onMouseEnter={onHoverStart}
       onMouseLeave={onHoverEnd}
-      className={`relative w-full h-full min-h-[280px] flex flex-col justify-between rounded-3xl backdrop-blur-md bg-white/95 dark:bg-neutral-900/95 p-7 sm:p-9 md:p-10 transition-[border-color,box-shadow,background-color] duration-200 overflow-hidden group cursor-default transform-gpu will-change-transform ${
+      className={`relative w-full h-full min-h-[260px] sm:min-h-[280px] flex flex-col justify-between rounded-3xl backdrop-blur-md bg-white/95 dark:bg-neutral-900/95 p-6 sm:p-8 lg:p-7 xl:p-9 transition-[border-color,box-shadow,background-color] duration-200 overflow-hidden group cursor-default transform-gpu will-change-transform ${
         isHovered
           ? "border border-neutral-900/40 dark:border-white/40 shadow-[0_28px_56px_rgba(0,0,0,0.18)] dark:shadow-[0_28px_56px_rgba(0,0,0,0.7)]"
           : "border border-neutral-900/15 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.08)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] hover:border-neutral-900/30 dark:hover:border-white/30"

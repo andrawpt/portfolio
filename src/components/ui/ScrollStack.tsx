@@ -133,15 +133,15 @@ export const ScrollStack: FC<ScrollStackProps> = ({
 
     const headerElHeight = stableHeaderHeightRef.current;
     const cardElHeight = stableCardHeightRef.current;
-    const totalBlockHeight = headerElHeight + 24 + cardElHeight;
-    const autoCenterTop = Math.max(70, (containerHeight - totalBlockHeight) / 2);
+    const totalBlockHeight = headerElHeight + 20 + cardElHeight;
+    const autoCenterTop = Math.max(84, (containerHeight - totalBlockHeight) / 2);
 
     const headerPositionPx =
       headerPosition === "center" ? autoCenterTop : parsePercentage(headerPosition, containerHeight);
 
     const stackPositionPx =
       stackPosition === "center"
-        ? headerPositionPx + headerElHeight + 24
+        ? headerPositionPx + headerElHeight + 20
         : parsePercentage(stackPosition, containerHeight);
 
     const endElement = useWindowScroll
